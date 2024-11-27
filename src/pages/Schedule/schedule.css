@@ -1,0 +1,81 @@
+.row-past-event {
+  color: rgba(0, 0, 0, 0.4);
+  background-color: #fafafa;
+}
+
+.schedule {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.schedule th,
+.schedule td {
+  width: calc(100% / 7);
+  padding: 16px;
+  font-size: 14px;
+}
+
+.schedule td:first-child,
+.schedule th:first-child {
+  width: 60px !important;
+  text-align: center;
+}
+
+.schedule th {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier,
+    monospace;
+  font-size: 13px;
+  font-weight: 500;
+  background-color: #fafafa;
+  color: #5c6b77;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.schedule td {
+  vertical-align: top;
+  padding: 0.5rem 0.15rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.schedule__item {
+  position: relative;
+  padding: 0.5rem;
+  /* background-color: rgb(242, 241, 237); */
+  overflow-wrap: anywhere;
+  border-radius: 0.5rem;
+  border: 1px solid #f0f0f0;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.schedule__item:hover {
+  border-color: #f0f0f0;
+  background-color: #fafafa;
+}
+
+.schedule .item-paid {
+  color: rgba(red, 0.6);
+  margin-right: 4px;
+}
+
+.schedule .item-title {
+  margin: 0 0 0.5rem;
+  line-height: 1.2;
+  font-weight: 800;
+}
+
+.schedule .item-teacher {
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.schedule .item-club {
+  line-height: 1.2;
+  font-size: 12px;
+}
+
+.schedule .item-menu {
+  position: absolute;
+  top: 0;
+  right: 0;
+}

@@ -1,0 +1,120 @@
+/* header */
+.logo {
+  margin: 16px 0;
+  padding-left: 24px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.logo a {
+  color: white;
+}
+
+.ant-layout-sider-collapsed .logo {
+  margin: 0;
+  visibility: hidden;
+}
+
+/* layout */
+.mainLayout {
+  min-height: 100vh !important;
+}
+
+.public-layout .logo {
+  margin: 0;
+}
+
+.ant-layout .site-layout-background {
+  background: #fff;
+}
+
+.ant-layout-header {
+  padding: 0 24px !important;
+  text-align: end;
+}
+
+.public-layout .ant-layout-header {
+  text-align: start;
+}
+
+.site-layout-content {
+  min-height: 280px;
+  padding: 24px;
+  width: 100%;
+}
+
+.site-footer {
+  text-align: center;
+}
+
+.ant-drawer-body {
+  padding: 0px;
+}
+
+/* mobile */
+.ant-layout-sider-zero-width-trigger {
+  display: none;
+}
+
+.mMenuBtn {
+  display: none !important;
+}
+
+.logoutBtn {
+  display: inline !important;
+}
+
+@media (max-width: 992px) {
+  .ant-layout-sider {
+    display: none;
+  }
+  .mMenuBtn {
+    display: inline !important;
+  }
+  .logoutBtn {
+    display: none !important;
+  }
+}
+
+/* antd elements improvements */
+.ant-alert {
+  margin-bottom: 16px !important;
+}
+
+.ant-pagination {
+  margin: 16px 0 16px 0 !important;
+  text-align: right;
+}
+
+.ant-table-thead > tr > th {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier,
+    monospace;
+  font-size: 13px;
+  line-height: 1.5714285714285714;
+  color: #5c6b77;
+}
+
+.ant-modal-title {
+  font-weight: bold !important;
+}
+
+/* additional classes */
+
+.row-dragging {
+  border: 1px solid #f0f0f0;
+  background-color: #fafafa;
+}
+.row-dragging td {
+  padding: 16px 16px;
+}
+.row-dragging table {
+  width: 100%;
+}
+
+.button-bar {
+  background-color: #fafafa;
+  padding: 16px 16px;
+  margin-bottom: 8px;
+  text-align: right;
+}

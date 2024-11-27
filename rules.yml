@@ -1,0 +1,19 @@
+http:
+  routers:
+    api-route:
+      rule: "Host(`localhost`) && PathPrefix(`/api`)"
+      service: backend-api
+    bundles-route:
+      rule: "Host(`localhost`) && PathPrefix(`/bundles`)"
+      service: backend-bundles
+
+  services:
+    backend-api:
+      loadBalancer:
+        servers:
+          - url: "http://host.docker.internal:4899/api"
+    backend-bundles:
+      loadBalancer:
+        servers:
+          - url: "http://host.docker.internal:4899/bundles"
+

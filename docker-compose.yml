@@ -1,0 +1,54 @@
+version: "3.7"
+
+services:
+
+  traefik:
+    image: traefik:2.9.8
+    restart: always
+    ports:
+      - ${APP_HTTP_PORT}:80
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.constraints=Label(`com.docker.compose.project`, `${COMPOSE_PROJECT_NAME}`)"
+      - "--providers.file=true"
+      - "--providers.file.filename=/etc/traefik/rules.yml"
+      - "--entrypoints.web.address=:80"
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+      - './rules.yml:/etc/traefik/rules.yml'
+    networks:
+      - traefik
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  client:
+      build:
+         args:
+           CONTAINER_UID: ${CONTAINER_UID}
+           CONTAINER_GID: ${CONTAINER_GID}
+         context: .
+      restart: always
+      volumes:
+        - ./:/var/app
+      working_dir: /var/app
+      entrypoint: yarn run start
+      networks: 
+        - traefik
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.client.rule=Host(`localhost`)"
+        - "traefik.http.routers.client.entrypoints=web"
+        - "traefik.port=3000"
+#      labels:
+#        - "traefik.http.routers.client.rule=Host(`localhost`)"
+#      - "traefik.http.routers.docs.rule=Host(`localhost`) && PathPrefix(`/docs`)"
+#      - "traefik.http.routers.docs.middlewares=strip-docs" # Necessary as Keith mentioned
+#      - "traefik.http.middlewares.strip-docs.stripprefix.prefixes=/docs"
+
+
+networks:
+  traefik:
+    driver: bridge
+
