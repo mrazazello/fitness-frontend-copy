@@ -1,20 +1,18 @@
 import { PageHeader } from "antd";
-import { useNavigate } from "react-router-dom";
 import { useCallback, useEffect } from "react";
 
+import type { ISliderEditValues } from "@entities/sliders";
+import { SliderEditForm, createSlider } from "@entities/sliders";
 import { errorActions } from "@shared/api/error";
-import { useAppDispatch } from "@app/index";
-import {
-  ISliderEditValues,
-  SliderEditForm,
-  createSlider
-} from "@entities/sliders";
+import { useAppDispatch } from "@shared/hooks/useAppStore";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
 
-import { slidersRoutes } from "./Routes";
+import { slidersRoutesPaths } from "./routesPaths";
 
 const SliderCreate = () => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { navigateBack } = useNavigateBack();
+  const onBack = () => navigateBack(slidersRoutesPaths.sliders.URL());
 
   useEffect(() => {
     void dispatch(errorActions.resetErrors());
@@ -22,21 +20,17 @@ const SliderCreate = () => {
 
   const handleSliderCreate = useCallback((values: ISliderEditValues) => {
     void dispatch(createSlider(values)).then((res) => {
-      if (res.meta.requestStatus === "fulfilled")
-        navigate(slidersRoutes.sliders.URL());
+      if (res.meta.requestStatus === "fulfilled") onBack();
     });
   }, []);
 
   return (
     <>
       <PageHeader
-        title={slidersRoutes.slider_create.title}
-        onBack={() => navigate(-1)}
+        title={slidersRoutesPaths.slider_create.title}
+        onBack={onBack}
       />
-      <SliderEditForm
-        onSave={handleSliderCreate}
-        onCancel={() => navigate(slidersRoutes.sliders.URL())}
-      />
+      <SliderEditForm onSave={handleSliderCreate} onCancel={onBack} />
     </>
   );
 };

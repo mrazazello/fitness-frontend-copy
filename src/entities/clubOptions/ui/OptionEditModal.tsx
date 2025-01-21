@@ -1,15 +1,16 @@
 import { Form, Input, Modal, Select } from "antd";
 import { useEffect } from "react";
 
-import * as formlabels from "@shared/constants/formsWrappers";
-import { useAppDispatch, useAppSelector } from "@app/index";
 import {
   fetchOptionIcons,
   optionIconsSelectors
 } from "@entities/clubOptionsIcons";
-import { IThunkCustomError, ShowErrorMessages } from "@shared/api/error";
+import type { IThunkCustomError } from "@shared/api/error";
+import { ShowErrorMessages } from "@shared/api/error";
+import * as formlabels from "@shared/constants/formsWrappers";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
 
-import { IClubOptionsItem } from "../model/types/clubOptions";
+import type { IClubOptionsItem } from "../model/types/clubOptions";
 
 interface IAddModalProps {
   isOpen: boolean;

@@ -1,4 +1,4 @@
-import { RootState } from "@app/index";
+import type { RootState } from "@app/index";
 
 import { promocodesAdapter } from "../slice/promocodesSlice";
 
@@ -11,3 +11,6 @@ export const getPromocodesLoading = (state: RootState) =>
 
 export const getPromocodesDetail = (state: RootState) =>
   state.promocodes.promocodeDetail;
+
+export const getPromocodesPagination = (state: RootState) =>
+  state.promocodes.pagination;

@@ -1,11 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
-import { PartialBy } from "@shared/models/slice";
-import { IThunkConfig } from "@app/index";
 import { errorActions } from "@shared/api/error";
+import type { IThunkConfig } from "@shared/api/error/model/types/error";
+import type { PartialBy } from "@shared/models/slice";
 
-import {
+import type {
   IProductEditRequest,
   IProductEditRequestArgs
 } from "../types/products";
@@ -25,13 +25,8 @@ export const editProduct = createAsyncThunk<
       };
       delete request.code;
       const backendRequest: IProductEditRequest = {
-        title: product.title,
-        oldPrice: product.oldPrice,
-        price: product.price,
-        description: product.description,
-        clubCodes: product.clubs.map((el) => el.code),
-        active: product.active,
-        promocode: product.promocode
+        ...product,
+        clubCodes: product.clubs.map((el) => el.code)
       };
       const response = await axios.post(
         `/products/${productCode}`,

@@ -1,14 +1,11 @@
-import {
+import type {
   ISliderListItem,
   ISliderDetail,
   ISliderEditValues,
   ISliderEditRequest
 } from "./model/types/sliders";
-import {
-  sliderReducer,
-  sliderActions,
-  ISlidersSchema
-} from "./model/slice/slidersSlice";
+import type { ISlidersSchema } from "./model/slice/slidersSlice";
+import { sliderReducer, sliderActions } from "./model/slice/slidersSlice";
 import {
   slidersSelectors,
   getSlidersLoading,

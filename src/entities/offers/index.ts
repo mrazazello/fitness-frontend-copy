@@ -1,35 +1,40 @@
 import {
-  IOfferListItem,
-  IOfferDetail,
-  IOfferEditValues
-} from "./model/types/offers";
-import {
-  offerReducer,
-  offerActions,
-  IOffersSchema
-} from "./model/slice/offersSlice";
-import {
-  offersSelectors,
   getOfferDetail,
   getOffersLoading,
-  getOffersPagination
+  getOffersPagination,
+  offersSelectors
 } from "./model/selectors/offersSelectors";
-import { fetchOffer } from "./model/service/fetchOffer";
-import { fetchOffers } from "./model/service/fetchOffers";
 import { createOffer } from "./model/service/createOffer";
 import { deleteOffer } from "./model/service/deleteOffer";
 import { editOffer } from "./model/service/editOffer";
-import { OffersList } from "./ui/OffersList";
+import { fetchOffer } from "./model/service/fetchOffer";
+import { fetchOffers } from "./model/service/fetchOffers";
+import type { IOffersSchema } from "./model/slice/offersSlice";
+import { offerActions, offerReducer } from "./model/slice/offersSlice";
+import type {
+  IOfferDetail,
+  IOfferEditValues,
+  IOfferListItem
+} from "./model/types/offers";
 import { OfferEditForm } from "./ui/OfferEditForm";
+import { OffersList } from "./ui/OffersList";
 
-export type { IOfferListItem, IOfferDetail, IOfferEditValues, IOffersSchema };
-export { offerReducer, offerActions };
 export {
-  offersSelectors,
   getOfferDetail,
   getOffersLoading,
-  getOffersPagination
+  getOffersPagination,
+  offerActions,
+  offerReducer,
+  offersSelectors
 };
+export type { IOfferDetail, IOfferEditValues, IOfferListItem, IOffersSchema };
 
-export { fetchOffer, fetchOffers, createOffer, deleteOffer, editOffer };
-export { OffersList, OfferEditForm };
+export {
+  OfferEditForm,
+  OffersList,
+  createOffer,
+  deleteOffer,
+  editOffer,
+  fetchOffer,
+  fetchOffers
+};

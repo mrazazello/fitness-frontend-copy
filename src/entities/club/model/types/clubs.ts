@@ -1,7 +1,7 @@
-import { UploadFile } from "antd";
+import type { UploadFile } from "antd";
 
-import { ICreatedFile } from "@shared/models/files";
-import { IPhotoListItem } from "@shared/models/photo";
+import type { ICreatedFile } from "@shared/models/files";
+import type { IPhotoListItem } from "@shared/models/photo";
 
 export interface IClubAddress {
   city: string;

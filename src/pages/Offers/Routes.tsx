@@ -1,38 +1,26 @@
 import { CoffeeOutlined } from "@ant-design/icons";
+import { lazy } from "react";
 
-import { IRoutes } from "@shared/models/routes";
+import type { IRoutes } from "@shared/models/routes";
 
-import { OffersAsync } from "./Offers.async";
-import { OfferCreateAsync } from "./OfferCreate.async";
-import { OfferEditAsync } from "./OfferEdit.async";
+const OfferCreateAsync = lazy(() => import("./OfferCreate"));
+const OfferEditAsync = lazy(() => import("./OfferEdit"));
+const OffersAsync = lazy(() => import("./Offers"));
 
-export enum OffersSlugsEnum {
-  offers = "offers",
-  offer_create = "offer_create",
-  offer_edit = "offer_edit"
-}
+import { OffersSlugsEnum, offersRoutesPaths } from "./routesPaths";
 
 export const offersRoutes: IRoutes<OffersSlugsEnum> = {
   offers: {
-    URL: () => "/offers",
+    ...offersRoutesPaths.offers,
     element: <OffersAsync />,
-    title: "Спец-предложения",
-    public: false,
-    mainMenu: true,
     icon: <CoffeeOutlined />
   },
   offer_create: {
-    URL: () => "/offers/create",
-    element: <OfferCreateAsync />,
-    title: "Добавление спец-предложения",
-    public: false,
-    mainMenu: false
+    ...offersRoutesPaths.offer_create,
+    element: <OfferCreateAsync />
   },
   offer_edit: {
-    URL: (id = ":id") => `/offers/${id}/edit`,
-    element: <OfferEditAsync />,
-    title: "Редактирование спец-предложения",
-    public: false,
-    mainMenu: false
+    ...offersRoutesPaths.offer_edit,
+    element: <OfferEditAsync />
   }
 };

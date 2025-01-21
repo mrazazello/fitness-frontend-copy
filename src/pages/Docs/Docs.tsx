@@ -1,22 +1,22 @@
 import { Button, Card, PageHeader } from "antd";
 import { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-import { ShowErrorMessages, errorActions } from "@shared/api/error";
-import { useAppDispatch, useAppSelector } from "@app/index";
-import { addReactKeyByProperty } from "@shared/utils/addReactKey";
+import type { IDocsListItem } from "@entities/docs";
 import {
   DocsList,
-  IDocsListItem,
   docsSelectors,
   fetchDocs,
   getDocsLoading
 } from "@entities/docs";
-
-import { docsRoutes } from "./Routes";
+import { ShowErrorMessages, errorActions } from "@shared/api/error";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
+import { addReactKeyByProperty } from "@shared/utils/addReactKey";
+import { docsRoutesPaths } from "./routesPaths";
 
 const Docs = () => {
-  const navigate = useNavigate();
+  const { navigateSave } = useNavigateBack();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -35,10 +35,9 @@ const Docs = () => {
     <>
       <PageHeader
         title="Документы"
-        onBack={() => navigate(-1)}
         extra={
-          <Link to={docsRoutes.doc_create.URL()}>
-            <Button type="primary">{docsRoutes.doc_create.title}</Button>
+          <Link to={docsRoutesPaths.doc_create.URL()}>
+            <Button type="primary">{docsRoutesPaths.doc_create.title}</Button>
           </Link>
         }
       />
@@ -47,7 +46,9 @@ const Docs = () => {
         <DocsList
           docs={docs}
           loading={loading === "loading"}
-          onEdit={(code: string) => navigate(docsRoutes.doc_edit.URL(code))}
+          onEdit={(code: string) =>
+            navigateSave(docsRoutesPaths.doc_edit.URL(code))
+          }
         />
       </Card>
     </>

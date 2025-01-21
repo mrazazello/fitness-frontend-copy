@@ -1,11 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
-import { PartialBy } from "@shared/models/slice";
-import { IThunkConfig } from "@app/index";
 import { errorActions } from "@shared/api/error";
+import type { IThunkConfig } from "@shared/api/error/model/types/error";
+import type { PartialBy } from "@shared/models/slice";
 
-import { IOfferEditArgs, IOfferEditRequest } from "../types/offers";
+import type { IOfferEditArgs, IOfferEditRequest } from "../types/offers";
 
 export const editOffer = createAsyncThunk<null, IOfferEditArgs, IThunkConfig>(
   "offers/editOffer",

@@ -1,21 +1,21 @@
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 
-import { IPhotoListItem } from "@shared/models/photo";
-import { IEntitiesState, PartialBy } from "@shared/models/slice";
+import type { IPhotoListItem } from "@shared/models/photo";
+import type { IEntitiesState, PartialBy } from "@shared/models/slice";
 
-import {
+import { editAddress } from "../service/editAddress";
+import { editClub } from "../service/editClub";
+import { editClubPhotos } from "../service/editClubPhotos";
+import { fetchClub } from "../service/fetchClub";
+import { fetchClubAddress } from "../service/fetchClubAddress";
+import { fetchClubPhotos } from "../service/fetchClubPhotos";
+import { fetchClubs } from "../service/fetchClubs";
+import type {
   IClubAddress,
   IClubDetail,
   IClubEditRequest,
   IClubListItem
 } from "../types/clubs";
-import { fetchClubs } from "../service/fetchClubs";
-import { fetchClub } from "../service/fetchClub";
-import { fetchClubAddress } from "../service/fetchClubAddress";
-import { fetchClubPhotos } from "../service/fetchClubPhotos";
-import { editClubPhotos } from "../service/editClubPhotos";
-import { editClub } from "../service/editClub";
-import { editAddress } from "../service/editAddress";
 
 export interface IClubSchema extends IEntitiesState {
   entities?: IClubListItem[];
@@ -38,6 +38,9 @@ const clubsSlice = createSlice({
   reducers: {
     resetPhotos: (state) => {
       state.clubPhotos = undefined;
+    },
+    resetDetail: (state) => {
+      state.clubDetail = undefined;
     }
   },
   extraReducers: (builder) => {

@@ -1,11 +1,12 @@
 import { Pagination, Table, Tag } from "antd";
-import { ColumnProps } from "antd/lib/table";
-import { Link, To } from "react-router-dom";
+import type { ColumnProps } from "antd/lib/table";
+import type { To } from "react-router-dom";
 
+import type { IPagination } from "@shared/models/slice";
 import TooltipDate from "@shared/ui/TooltipDate/TooltipDate";
-import { IPagination } from "@shared/models/slice";
 
-import { IFormQueriesListItem } from "../model/types/formQueries";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
+import type { IFormQueriesListItem } from "../model/types/formQueries";
 
 type TProps = {
   forms?: IFormQueriesListItem[];
@@ -17,6 +18,11 @@ type TProps = {
 
 export const FormsList = (props: TProps) => {
   const { forms, loading, pagination, onView, onPageChange } = props;
+  const { navigateSave } = useNavigateBack();
+
+  const viewHandler = (code: string) => {
+    navigateSave(onView(code));
+  };
 
   const columns: ColumnProps<IFormQueriesListItem>[] = [
     {
@@ -24,9 +30,9 @@ export const FormsList = (props: TProps) => {
       dataIndex: "createdAt",
       key: "createdAt",
       render: (_, record) => (
-        <Link to={onView(record.code)}>
+        <a onClick={() => viewHandler(record.code)}>
           <TooltipDate date={record.createdAt} />
-        </Link>
+        </a>
       )
     },
     {
@@ -40,13 +46,6 @@ export const FormsList = (props: TProps) => {
       dataIndex: "type",
       key: "type",
       render: (_, record) => <Tag>{record.type}</Tag>
-    },
-    {
-      title: "club",
-      dataIndex: "club",
-      key: "club",
-      responsive: ["xxl", "xl", "lg", "md"],
-      render: (_, record) => record.club?.name
     }
   ];
 

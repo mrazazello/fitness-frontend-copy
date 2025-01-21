@@ -1,9 +1,9 @@
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 
-import { IEntitiesState } from "@shared/models/slice";
+import type { IEntitiesState } from "@shared/models/slice";
 
-import { IStreetTypeItem } from "../types/streetTypes";
 import { fetchstreetTypes } from "../service/fetchstreetTypes";
+import type { IStreetTypeItem } from "../types/streetTypes";
 
 export interface IOptionIconsSchema extends IEntitiesState {
   entities?: IStreetTypeItem[];

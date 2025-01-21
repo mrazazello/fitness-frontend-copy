@@ -1,8 +1,9 @@
 import { Table } from "antd";
-import { ColumnProps } from "antd/lib/table";
-import { Link, To } from "react-router-dom";
+import type { ColumnProps } from "antd/lib/table";
+import { Link } from "react-router-dom";
+import type { To } from "react-router-dom";
 
-import { IClubListItem } from "../model/types/clubs";
+import type { IClubListItem } from "../model/types/clubs";
 
 type EProps = {
   clubs: IClubListItem[];

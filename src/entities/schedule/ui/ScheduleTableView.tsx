@@ -1,16 +1,16 @@
-import { Space, Table, Tag, Tooltip } from "antd";
-import dayjs from "dayjs";
-import { ColumnProps } from "antd/lib/table";
 import { DollarCircleOutlined } from "@ant-design/icons";
+import { Space, Table, Tag, Tooltip } from "antd";
+import type { ColumnProps } from "antd/lib/table";
+import dayjs from "dayjs";
 
-import getFullName from "@shared/utils/getFullName";
-import { EditEntityBtn } from "@shared/ui/EditEntityBtn/EditEntityBtn";
+import { useAppDispatch } from "@shared/hooks/useAppStore";
+import type { IRowSelection } from "@shared/hooks/useTableRowSelection";
 import { DeleteEntityBtn } from "@shared/ui/DeleteEntityBtn/DeleteEntityBtn";
-import { useAppDispatch } from "@app/index";
-import { IRowSelection } from "@shared/hooks/useTableRowSelection";
+import { EditEntityBtn } from "@shared/ui/EditEntityBtn/EditEntityBtn";
+import getFullName from "@shared/utils/getFullName";
 
-import { IScheduleListItem } from "../model/types/schedule";
 import { deleteEvent } from "../model/service/deleteEvent";
+import type { IScheduleListItem } from "../model/types/schedule";
 
 type TProps = {
   events?: IScheduleListItem[];
@@ -109,6 +109,7 @@ export const ScheduleTableView = (props: TProps) => {
       rowClassName={(record) =>
         dayjs(record.startedAt).isBefore(dayjs()) ? "row-past-event" : ""
       }
+      pagination={false}
     />
   );
 };

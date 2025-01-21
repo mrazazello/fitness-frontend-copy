@@ -1,13 +1,13 @@
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 
-import { IEntitiesState } from "@shared/models/slice";
+import type { IEntitiesState } from "@shared/models/slice";
 
-import { IAllAreaItem, IClubAreasItem } from "../types/clubAreas";
-import { fetchClubAreas } from "../service/fetchClubAreas";
-import { fetchAllAreas } from "../service/fetchAllAreas";
 import { createClubArea } from "../service/createClubArea";
 import { deleteArea } from "../service/deleteArea";
 import { editArea } from "../service/editArea";
+import { fetchAllAreas } from "../service/fetchAllAreas";
+import { fetchClubAreas } from "../service/fetchClubAreas";
+import type { IAllAreaItem, IClubAreasItem } from "../types/clubAreas";
 
 export interface IClubAreasSchema extends IEntitiesState {
   clubAreas: IClubAreasItem[];

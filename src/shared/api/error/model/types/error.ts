@@ -1,3 +1,5 @@
+import type { RootState } from "@app/providers/StoreProvider/store";
+
 type IAlertType = "success" | "warning" | "error" | "info";
 
 type ErrorDebugDetail = {
@@ -19,4 +21,9 @@ export interface IThunkCustomError {
   name?: string;
   details?: ErrorDebugDetail | ErrorValidationDetails;
   type: IAlertType;
+}
+
+export interface IThunkConfig {
+  rejectValue: IThunkCustomError;
+  state: RootState;
 }

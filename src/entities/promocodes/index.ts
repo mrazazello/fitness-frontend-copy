@@ -1,18 +1,19 @@
-import {
+import type {
   IPromocodeListItem,
   IPromocodeDetail,
   IPromocodeEditValues,
   IPromocodeEditRequest
 } from "./model/types/promocodes";
+import type { IPromocodesSchema } from "./model/slice/promocodesSlice";
 import {
   promocodesActions,
-  promocodesReducer,
-  IPromocodesSchema
+  promocodesReducer
 } from "./model/slice/promocodesSlice";
 import {
   promocodesSelectors,
   getPromocodesLoading,
-  getPromocodesDetail
+  getPromocodesDetail,
+  getPromocodesPagination
 } from "./model/selectors/promocodesSelectors";
 import { createPromocode } from "./model/service/createPromocode";
 import { deletePromocode } from "./model/service/deletePromocode";
@@ -30,7 +31,12 @@ export type {
   IPromocodesSchema
 };
 export { promocodesActions, promocodesReducer };
-export { promocodesSelectors, getPromocodesLoading, getPromocodesDetail };
+export {
+  promocodesSelectors,
+  getPromocodesLoading,
+  getPromocodesDetail,
+  getPromocodesPagination
+};
 export {
   createPromocode,
   deletePromocode,

@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
+import type { IThunkConfig } from "@shared/api/error/model/types/error";
 import { defaultPageSize } from "@shared/constants/params";
-import { IThunkConfig } from "@app/index";
 
-import { ISliderListResponse } from "../types/sliders";
+import type { ISliderListResponse } from "../types/sliders";
 
 export const fetchSliders = createAsyncThunk<
   ISliderListResponse,

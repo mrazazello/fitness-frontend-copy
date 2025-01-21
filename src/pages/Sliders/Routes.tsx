@@ -1,38 +1,26 @@
 import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { lazy } from "react";
 
-import { IRoutes } from "@shared/models/routes";
+import type { IRoutes } from "@shared/models/routes";
 
-import { SlidersAsync } from "./Sliders.async";
-import { SliderCreateAsync } from "./SliderCreate.async";
-import { SliderEditAsync } from "./SliderEdit.async";
+const SliderCreateAsync = lazy(() => import("./SliderCreate"));
+const SliderEditAsync = lazy(() => import("./SliderEdit"));
+const SlidersAsync = lazy(() => import("./Sliders"));
 
-export enum SlidersSlugsEnum {
-  sliders = "sliders",
-  slider_create = "slider_create",
-  slider_edit = "slider_edit"
-}
+import { SlidersSlugsEnum, slidersRoutesPaths } from "./routesPaths";
 
 export const slidersRoutes: IRoutes<SlidersSlugsEnum> = {
   sliders: {
-    URL: () => `/sliders`,
+    ...slidersRoutesPaths.sliders,
     element: <SlidersAsync />,
-    title: "Слайдеры",
-    public: false,
-    mainMenu: true,
     icon: <ExclamationCircleOutlined />
   },
   slider_create: {
-    URL: () => "/sliders/create",
-    element: <SliderCreateAsync />,
-    title: "Добавление слайдера",
-    public: false,
-    mainMenu: false
+    ...slidersRoutesPaths.slider_create,
+    element: <SliderCreateAsync />
   },
   slider_edit: {
-    URL: (id = ":id") => `/sliders/${id}/edit`,
-    element: <SliderEditAsync />,
-    title: "Редактирование слайдера",
-    public: false,
-    mainMenu: false
+    ...slidersRoutesPaths.slider_edit,
+    element: <SliderEditAsync />
   }
 };

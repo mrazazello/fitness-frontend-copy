@@ -1,21 +1,24 @@
-import { Space, Switch, Table } from "antd";
-import { ColumnProps } from "antd/lib/table";
+import { Pagination, Space, Switch, Table } from "antd";
+import type { ColumnProps } from "antd/lib/table";
 
-import { EditEntityBtn } from "@shared/ui/EditEntityBtn/EditEntityBtn";
+import { useAppDispatch } from "@shared/hooks/useAppStore";
+import type { IPagination } from "@shared/models/slice";
 import { DeleteEntityBtn } from "@shared/ui/DeleteEntityBtn/DeleteEntityBtn";
-import { useAppDispatch } from "@app/index";
+import { EditEntityBtn } from "@shared/ui/EditEntityBtn/EditEntityBtn";
 
-import { IPromocodeListItem } from "../model/types/promocodes";
 import { deletePromocode } from "../model/service/deletePromocode";
+import type { IPromocodeListItem } from "../model/types/promocodes";
 
 type TProps = {
   promocodes?: IPromocodeListItem[];
   loading: boolean;
+  pagination?: IPagination;
   onEdit: (code: string) => void;
+  onPageChange: (page: number) => void;
 };
 
 export const PromocodesList = (props: TProps) => {
-  const { promocodes, loading, onEdit } = props;
+  const { promocodes, loading, pagination, onEdit, onPageChange } = props;
   const dispatch = useAppDispatch();
 
   const columns: ColumnProps<IPromocodeListItem>[] = [
@@ -69,5 +72,23 @@ export const PromocodesList = (props: TProps) => {
     }
   ];
 
-  return <Table dataSource={promocodes} columns={columns} loading={loading} />;
+  return (
+    <>
+      <Table
+        dataSource={promocodes}
+        columns={columns}
+        loading={loading}
+        pagination={false}
+      />
+      {pagination && (
+        <Pagination
+          current={pagination.currentPage}
+          pageSize={pagination.pageSize}
+          total={pagination.total}
+          showSizeChanger={false}
+          onChange={onPageChange}
+        />
+      )}
+    </>
+  );
 };

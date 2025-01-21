@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 
-import Preloader from "@shared/ui/Preloader/Preloader";
-import { useAppDispatch, useAppSelector } from "@app/index";
 import { getAccessToken, refreshToken } from "@entities/auth";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
+import Preloader from "@shared/ui/Preloader/Preloader";
 
 const PersistLogin = () => {
   const dispatch = useAppDispatch();
@@ -15,7 +15,7 @@ const PersistLogin = () => {
       await dispatch(refreshToken());
       setIsTokenLoading(false);
     };
-    isTokenLoading && veryfyRefreshToken();
+    if (isTokenLoading) veryfyRefreshToken();
   }, [isTokenLoading]);
 
   return isTokenLoading ? <Preloader message="Authorizing..." /> : <Outlet />;

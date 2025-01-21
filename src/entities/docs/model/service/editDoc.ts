@@ -1,11 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
-import { PartialBy } from "@shared/models/slice";
-import { IThunkConfig } from "@app/index";
 import { errorActions } from "@shared/api/error";
+import type { IThunkConfig } from "@shared/api/error/model/types/error";
+import type { PartialBy } from "@shared/models/slice";
 
-import { IDocEditRequest } from "../types/docs";
+import type { IDocEditRequest } from "../types/docs";
 
 export const editDoc = createAsyncThunk<null, IDocEditRequest, IThunkConfig>(
   "docs/editDoc",

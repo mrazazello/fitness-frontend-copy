@@ -1,30 +1,29 @@
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 
-import { IEntitiesState, ISorterRusult } from "@shared/models/slice";
+import type { IEntitiesState, ISorterRusult } from "@shared/models/slice";
 
-import {
-  convertScheduleCreateArgsToDetail,
+import { copyEvents } from "../service/copyEvents";
+import { createEvent } from "../service/createEvent";
+import { deleteEvent } from "../service/deleteEvent";
+import { editEvent } from "../service/editEvent";
+import { fetchEvent } from "../service/fetchEvent";
+import { fetchEvents } from "../service/fetchEvents";
+import type {
   IScheduleDetail,
   IScheduleFilters,
   IScheduleListItem
 } from "../types/schedule";
-import { fetchEvents } from "../service/fetchEvents";
-import { deleteEvent } from "../service/deleteEvent";
-import { createEvent } from "../service/createEvent";
-import { fetchEvent } from "../service/fetchEvent";
-import { editEvent } from "../service/editEvent";
-import { copyEvents } from "../service/copyEvents";
+import { convertScheduleCreateArgsToDetail } from "../types/schedule";
 
 export interface IScheduleSchema extends IEntitiesState {
   entities?: IScheduleListItem;
-  eventDetail: IScheduleDetail | null;
+  eventDetail?: IScheduleDetail;
   filters?: IScheduleFilters;
   sorter: ISorterRusult | ISorterRusult[];
 }
 
 const initialState: IScheduleSchema = {
   loading: "idle",
-  eventDetail: null,
   sorter: {}
 };
 
@@ -37,7 +36,7 @@ const scheduleSlice = createSlice({
   initialState: scheduleAdapter.getInitialState(initialState),
   reducers: {
     resetEventDetail: (state) => {
-      state.eventDetail = null;
+      state.eventDetail = undefined;
     }
   },
   extraReducers: (builder) => {

@@ -1,23 +1,24 @@
 import { PageHeader } from "antd";
 import dayjs from "dayjs";
 import { useCallback, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
-import { errorActions } from "@shared/api/error";
-import { useAppDispatch } from "@app/index";
 import {
   fetchAllProducts,
   useProductsAllSelectItems
 } from "@entities/products";
-import { IPromocodeCreateValues } from "@entities/promocodes/model/types/promocodes";
 import { PromocodeEditForm, createPromocode } from "@entities/promocodes";
+import type { IPromocodeCreateValues } from "@entities/promocodes/model/types/promocodes";
+import { errorActions } from "@shared/api/error";
 import { defaultBackendDateFormat } from "@shared/constants/params";
+import { useAppDispatch } from "@shared/hooks/useAppStore";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
 
-import { promocodesRoutes } from "./Routes";
+import { promocodesRoutesPaths } from "./routesPaths";
 
 const PromocodeCreate = () => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { navigateBack } = useNavigateBack();
+  const onBack = () => navigateBack(promocodesRoutesPaths.promocodes.URL());
 
   useEffect(() => {
     void dispatch(errorActions.resetErrors());
@@ -35,21 +36,20 @@ const PromocodeCreate = () => {
         productCodes: values.productCodes
       })
     ).then((res) => {
-      if (res.meta.requestStatus === "fulfilled")
-        navigate(promocodesRoutes.promocodes.URL());
+      if (res.meta.requestStatus === "fulfilled") onBack();
     });
   }, []);
 
   return (
     <>
       <PageHeader
-        title={promocodesRoutes.promocode_create.title}
-        onBack={() => navigate(-1)}
+        title={promocodesRoutesPaths.promocode_create.title}
+        onBack={onBack}
       />
       <PromocodeEditForm
         allProductsOptions={allProductsOptions}
         onSave={handleProgrammCreate}
-        onCancel={() => navigate(promocodesRoutes.promocodes.URL())}
+        onCancel={onBack}
       />
     </>
   );

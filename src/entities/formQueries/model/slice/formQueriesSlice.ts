@@ -1,10 +1,13 @@
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 
-import { IEntitiesState } from "@shared/models/slice";
+import type { IEntitiesState } from "@shared/models/slice";
 
-import { IFormQuerieDetail, IFormQueriesListItem } from "../types/formQueries";
-import { fetchformQueries } from "../service/fetchformQueries";
 import { fetchformQuerie } from "../service/fetchformQuerie";
+import { fetchformQueries } from "../service/fetchformQueries";
+import type {
+  IFormQuerieDetail,
+  IFormQueriesListItem
+} from "../types/formQueries";
 
 export interface IFormQueriesSchema extends IEntitiesState {
   entities?: IFormQueriesListItem[];

@@ -1,30 +1,37 @@
 import { Button, Card, Col, PageHeader, Row, Space, Typography } from "antd";
-import { useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useCallback, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 
-import { ShowErrorMessages, errorActions } from "@shared/api/error";
-import { useAppDispatch, useAppSelector } from "@app/index";
 import {
   ClubCard,
+  clubActions,
   fetchClub,
   fetchClubAddress,
   getClubAddress,
   getClubDetail,
   getClubLoading
 } from "@entities/club";
-import { ClubOptionList } from "@entities/clubOptions";
 import { ClubAreasList } from "@entities/clubAreas";
+import { ClubOptionList } from "@entities/clubOptions";
+import { ShowErrorMessages, errorActions } from "@shared/api/error";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
 
 import PageNotFound from "../404/PageNotFound";
 
-import { clubRoutes } from "./Routes";
+import { clubRoutesPaths } from "./routesPaths";
 
 const { Title } = Typography;
 
 const ClubPage = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
+  const { navigateBack } = useNavigateBack();
   const dispatch = useAppDispatch();
+
+  const onBack = useCallback(() => {
+    dispatch(clubActions.resetDetail());
+    navigateBack(clubRoutesPaths.clubs.URL());
+  }, []);
 
   useEffect(() => {
     dispatch(errorActions.resetErrors());
@@ -43,25 +50,25 @@ const ClubPage = () => {
   return (
     <>
       <PageHeader
-        title={`${clubRoutes.club.title}: ${clubDetail?.clubName}`}
-        onBack={() => navigate(clubRoutes.clubs.URL())}
+        title={`${clubRoutesPaths.club.title}: ${clubDetail?.clubName}`}
+        onBack={onBack}
       />
       <Card
         loading={loading === "loading"}
         title={<Title level={5}>Параметры клуба</Title>}
         extra={
           <Space>
-            <Link to={clubRoutes.club_edit.URL(id)}>
-              <Button type="primary">{clubRoutes.club_edit.title}</Button>
+            <Link to={clubRoutesPaths.club_edit.URL(id)}>
+              <Button type="primary">{clubRoutesPaths.club_edit.title}</Button>
             </Link>
-            <Link to={clubRoutes.club_address_edit.URL(id)}>
+            <Link to={clubRoutesPaths.club_address_edit.URL(id)}>
               <Button type="primary">
-                {clubRoutes.club_address_edit.title}
+                {clubRoutesPaths.club_address_edit.title}
               </Button>
             </Link>
-            <Link to={clubRoutes.club_photos_edit.URL(id)}>
+            <Link to={clubRoutesPaths.club_photos_edit.URL(id)}>
               <Button type="primary">
-                {clubRoutes.club_photos_edit.title}
+                {clubRoutesPaths.club_photos_edit.title}
               </Button>
             </Link>
           </Space>

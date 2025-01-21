@@ -1,22 +1,21 @@
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 
-import { IEntitiesState } from "@shared/models/slice";
+import type { IEntitiesState } from "@shared/models/slice";
 
-import { IPromocodeDetail, IPromocodeListItem } from "../types/promocodes";
-import { fetchPromocodes } from "../service/fetchPromocodes";
-import { fetchPromocode } from "../service/fetchPromocode";
 import { createPromocode } from "../service/createPromocode";
-import { editPromocode } from "../service/editPromocode";
 import { deletePromocode } from "../service/deletePromocode";
+import { editPromocode } from "../service/editPromocode";
+import { fetchPromocode } from "../service/fetchPromocode";
+import { fetchPromocodes } from "../service/fetchPromocodes";
+import type { IPromocodeDetail, IPromocodeListItem } from "../types/promocodes";
 
 export interface IPromocodesSchema extends IEntitiesState {
   entities?: IPromocodeListItem[];
-  promocodeDetail: IPromocodeDetail | null;
+  promocodeDetail?: IPromocodeDetail;
 }
 
 const initialState: IPromocodesSchema = {
-  loading: "idle",
-  promocodeDetail: null
+  loading: "idle"
 };
 
 export const promocodesAdapter = createEntityAdapter({
@@ -26,7 +25,11 @@ export const promocodesAdapter = createEntityAdapter({
 const promocodesSlice = createSlice({
   name: "promocodes",
   initialState: promocodesAdapter.getInitialState(initialState),
-  reducers: {},
+  reducers: {
+    resetDetail: (state) => {
+      state.promocodeDetail = undefined;
+    }
+  },
   extraReducers: (builder) => {
     builder
       // fetch promocodes
@@ -34,6 +37,7 @@ const promocodesSlice = createSlice({
         promocodesAdapter.removeAll(state);
         promocodesAdapter.addMany(state, action.payload.promocodes.items);
         state.loading = "idle";
+        state.pagination = action.payload.promocodes.pagination;
       })
       .addCase(fetchPromocodes.rejected, (state) => {
         state.loading = "failed";

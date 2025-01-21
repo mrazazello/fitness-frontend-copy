@@ -1,28 +1,35 @@
 import { PageHeader } from "antd";
 import dayjs from "dayjs";
-import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useCallback, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
-import { errorActions } from "@shared/api/error";
-import { useAppDispatch, useAppSelector } from "@app/index";
-import { convertIFileResponseToPhotoListItem } from "@shared/models/files";
+import type { IOfferEditValues } from "@entities/offers";
 import {
-  IOfferEditValues,
   OfferEditForm,
   editOffer,
   fetchOffer,
   getOfferDetail,
-  getOffersLoading
+  getOffersLoading,
+  offerActions
 } from "@entities/offers";
+import { errorActions } from "@shared/api/error";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
+import { convertIFileResponseToPhotoListItem } from "@shared/models/files";
 
 import PageNotFound from "../404/PageNotFound";
 
-import { offersRoutes } from "./Routes";
+import { offersRoutesPaths } from "./routesPaths";
 
 const OfferEdit = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { navigateBack } = useNavigateBack();
+
+  const onBack = useCallback(() => {
+    dispatch(offerActions.resetDetail());
+    navigateBack(offersRoutesPaths.offers.URL());
+  }, []);
 
   useEffect(() => {
     void dispatch(errorActions.resetErrors());
@@ -38,9 +45,8 @@ const OfferEdit = () => {
 
     void dispatch(
       editOffer({
+        ...values,
         code: offerDetail.code,
-        name: values.name,
-        title: values.title,
         endAt: dayjs(values.endAt).format("YYYY-MM-DD hh:mm:ss"),
         photo: convertIFileResponseToPhotoListItem(values.photo[0].response)
       })
@@ -54,14 +60,14 @@ const OfferEdit = () => {
   return (
     <>
       <PageHeader
-        title={`${offersRoutes.offer_edit.title}: ${offerDetail?.name}`}
-        onBack={() => navigate(offersRoutes.offers.URL())}
+        title={`${offersRoutesPaths.offer_edit.title}: ${offerDetail?.name}`}
+        onBack={onBack}
       />
       <OfferEditForm
         offerDetail={offerDetail}
         loading={loading === "loading"}
         onSave={handleOfferEdit}
-        onCancel={() => navigate(offersRoutes.offers.URL())}
+        onCancel={onBack}
       />
     </>
   );

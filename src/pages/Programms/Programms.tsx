@@ -1,22 +1,23 @@
 import { Button, Card, PageHeader } from "antd";
 import { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-import { ShowErrorMessages, errorActions } from "@shared/api/error";
-import { useAppDispatch, useAppSelector } from "@app/index";
-import { addReactKeyByProperty } from "@shared/utils/addReactKey";
+import type { IProgramListItem } from "@entities/programms";
 import {
+  ProgramsList,
   fetchProgramms,
   getProggramsLoading,
-  IProgramListItem,
-  programmsSelectors,
-  ProgramsList
+  programmsSelectors
 } from "@entities/programms";
+import { ShowErrorMessages, errorActions } from "@shared/api/error";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
+import { addReactKeyByProperty } from "@shared/utils/addReactKey";
 
-import { programmsRoutes } from "./Routes";
+import { programmsRoutesPaths } from "./routesPaths";
 
 const Programms = () => {
-  const navigate = useNavigate();
+  const { navigateSave } = useNavigateBack();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -33,11 +34,11 @@ const Programms = () => {
   return (
     <>
       <PageHeader
-        title={programmsRoutes.programms.title}
+        title={programmsRoutesPaths.programms.title}
         extra={
-          <Link to={programmsRoutes.programm_create.URL()}>
+          <Link to={programmsRoutesPaths.programm_create.URL()}>
             <Button type="primary">
-              {programmsRoutes.programm_create.title}
+              {programmsRoutesPaths.programm_create.title}
             </Button>
           </Link>
         }
@@ -48,7 +49,7 @@ const Programms = () => {
           programms={programms}
           loading={loading === "loading"}
           onEdit={(code: string) =>
-            navigate(programmsRoutes.programm_edit.URL(code))
+            navigateSave(programmsRoutesPaths.programm_edit.URL(code))
           }
         />
       </Card>

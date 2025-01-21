@@ -1,15 +1,15 @@
 import { Pagination, Space, Table } from "antd";
-import { ColumnProps } from "antd/lib/table";
+import type { ColumnProps } from "antd/lib/table";
 
+import { useAppDispatch } from "@shared/hooks/useAppStore";
+import type { IPagination } from "@shared/models/slice";
+import { DeleteEntityBtn } from "@shared/ui/DeleteEntityBtn/DeleteEntityBtn";
+import { EditEntityBtn } from "@shared/ui/EditEntityBtn/EditEntityBtn";
 import { ImagePreview } from "@shared/ui/ImagePreview/ImagePreview";
 import TooltipDate from "@shared/ui/TooltipDate/TooltipDate";
-import { EditEntityBtn } from "@shared/ui/EditEntityBtn/EditEntityBtn";
-import { DeleteEntityBtn } from "@shared/ui/DeleteEntityBtn/DeleteEntityBtn";
-import { IPagination } from "@shared/models/slice";
-import { useAppDispatch } from "@app/index";
 
-import { INewsListItem } from "../model/types/news";
 import { deleteNews } from "../model/service/deleteNews";
+import type { INewsListItem } from "../model/types/news";
 
 type TProps = {
   news?: INewsListItem[];

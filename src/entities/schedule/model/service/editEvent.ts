@@ -1,10 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
-import { IThunkConfig } from "@app/index";
 import { errorActions } from "@shared/api/error";
+import type { IThunkConfig } from "@shared/api/error/model/types/error";
 
-import { IScheduleEditArgs, IScheduleEditRequest } from "../types/schedule";
+import type {
+  IScheduleEditArgs,
+  IScheduleEditRequest
+} from "../types/schedule";
 
 export const editEvent = createAsyncThunk<
   null,
@@ -15,12 +18,10 @@ export const editEvent = createAsyncThunk<
   try {
     const eventCode = args.code;
     const request: IScheduleEditRequest = {
-      startedAt: args.startedAt,
+      ...args,
       programCode: args.program.code,
       teacherCode: args.teacher.code,
-      areaCode: args.area.code,
-      paid: args.paid,
-      comment: args.comment
+      areaCode: args.area.code
     };
     const response = await axios.post(
       `/schedule/${eventCode}`,

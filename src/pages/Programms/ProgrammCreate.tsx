@@ -1,20 +1,18 @@
 import { PageHeader } from "antd";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
+import type { IProgrammEditValues } from "@entities/programms";
+import { ProgramEditForm, createProgramm } from "@entities/programms";
 import { errorActions } from "@shared/api/error";
-import { useAppDispatch } from "@app/index";
-import {
-  IProgrammEditValues,
-  ProgramEditForm,
-  createProgramm
-} from "@entities/programms";
+import { useAppDispatch } from "@shared/hooks/useAppStore";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
 
-import { programmsRoutes } from "./Routes";
+import { programmsRoutesPaths } from "./routesPaths";
 
 const ProgrammCreate = () => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { navigateBack } = useNavigateBack();
+  const onBack = () => navigateBack(programmsRoutesPaths.programms.URL());
 
   useEffect(() => {
     void dispatch(errorActions.resetErrors());
@@ -22,21 +20,17 @@ const ProgrammCreate = () => {
 
   const handleProgrammCreate = (values: IProgrammEditValues) => {
     void dispatch(createProgramm(values)).then((res) => {
-      if (res.meta.requestStatus === "fulfilled")
-        navigate(programmsRoutes.programms.URL());
+      if (res.meta.requestStatus === "fulfilled") onBack();
     });
   };
 
   return (
     <>
       <PageHeader
-        title={programmsRoutes.programm_create.title}
-        onBack={() => () => navigate(programmsRoutes.programms.URL())}
+        title={programmsRoutesPaths.programm_create.title}
+        onBack={onBack}
       />
-      <ProgramEditForm
-        onSave={handleProgrammCreate}
-        onCancel={() => navigate(programmsRoutes.programms.URL())}
-      />
+      <ProgramEditForm onSave={handleProgrammCreate} onCancel={onBack} />
     </>
   );
 };

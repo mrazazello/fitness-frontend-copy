@@ -1,18 +1,18 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
-import { IThunkConfig } from "@app/index";
+import type { IThunkConfig } from "@shared/api/error/model/types/error";
 
-import { IPromocodeListResponse } from "../types/promocodes";
+import type { IPromocodeListResponse } from "../types/promocodes";
 
 export const fetchPromocodes = createAsyncThunk<
   IPromocodeListResponse,
-  undefined,
+  number,
   IThunkConfig
->("promocodes/fetchPromocodes", async (_, thunkAPI) => {
+>("promocodes/fetchPromocodes", async (page, thunkAPI) => {
   const { rejectWithValue } = thunkAPI;
   try {
-    const response = await axios.get("/promocodes");
+    const response = await axios.get(`/promocodes?page=${page}`);
     return response.data as IPromocodeListResponse;
   } catch (err) {
     if (err instanceof AxiosError) return rejectWithValue(err.response?.data);

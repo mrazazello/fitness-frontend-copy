@@ -1,20 +1,9 @@
-import {
-  IClubAddress,
-  IClubListItem,
-  IClubDetail,
-  IClubEditAddressValues,
-  IClubsEditPhotosArgs
-} from "./model/types/clubs";
-import {
-  clubReducer,
-  clubActions,
-  IClubSchema
-} from "./model/slice/clubsSlice";
+import { useClubsSelectItems } from "./hooks/useClubsSelectItems";
 import {
   clubsSelectors,
-  getClubLoading,
-  getClubDetail,
   getClubAddress,
+  getClubDetail,
+  getClubLoading,
   getClubPhotos
 } from "./model/selectors/clubSelectors";
 import { editAddress } from "./model/service/editAddress";
@@ -24,44 +13,49 @@ import { fetchClub } from "./model/service/fetchClub";
 import { fetchClubAddress } from "./model/service/fetchClubAddress";
 import { fetchClubPhotos } from "./model/service/fetchClubPhotos";
 import { fetchClubs } from "./model/service/fetchClubs";
-import { useClubsSelectItems } from "./hooks/useClubsSelectItems";
-import { ClubsList } from "./ui/ClubsList";
-import { ClubEditForm } from "./ui/ClubEditForm";
+import type { IClubSchema } from "./model/slice/clubsSlice";
+import { clubActions, clubReducer } from "./model/slice/clubsSlice";
+import type {
+  IClubAddress,
+  IClubDetail,
+  IClubEditAddressValues,
+  IClubListItem,
+  IClubsEditPhotosArgs
+} from "./model/types/clubs";
 import { ClubAddressEditForm } from "./ui/ClubAddressEditForm";
 import { ClubCard } from "./ui/ClubCard";
+import { ClubEditForm } from "./ui/ClubEditForm";
 import { ClubPhotosEditForm } from "./ui/ClubPhotosEditForm";
+import { ClubsList } from "./ui/ClubsList";
 
 export type {
   IClubAddress,
-  IClubListItem,
   IClubDetail,
   IClubEditAddressValues,
-  IClubsEditPhotosArgs,
-  IClubSchema
+  IClubListItem,
+  IClubSchema,
+  IClubsEditPhotosArgs
 };
 
-export { clubReducer, clubActions };
 export {
+  ClubAddressEditForm,
+  ClubCard,
+  ClubEditForm,
+  ClubPhotosEditForm,
+  ClubsList,
+  clubActions,
+  clubReducer,
   clubsSelectors,
-  getClubLoading,
-  getClubDetail,
-  getClubAddress,
-  getClubPhotos
-};
-export {
   editAddress,
   editClub,
   editClubPhotos,
   fetchClub,
   fetchClubAddress,
   fetchClubPhotos,
-  fetchClubs
-};
-export { useClubsSelectItems };
-export {
-  ClubsList,
-  ClubEditForm,
-  ClubAddressEditForm,
-  ClubCard,
-  ClubPhotosEditForm
+  fetchClubs,
+  getClubAddress,
+  getClubDetail,
+  getClubLoading,
+  getClubPhotos,
+  useClubsSelectItems
 };

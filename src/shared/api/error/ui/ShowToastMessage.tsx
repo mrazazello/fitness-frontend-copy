@@ -1,7 +1,7 @@
 import { message } from "antd";
 import { useEffect } from "react";
 
-import { useAppDispatch, useAppSelector } from "@app/index";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
 
 import { getErrors } from "../model/selectors/errorSelectors";
 import { errorActions } from "../model/slice/errorSlice";

@@ -1,22 +1,12 @@
-import { PayloadAction } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
-import { IThunkCustomError } from "@shared/api/error/model/types/error";
-import { refreshToken } from "@entities/auth";
-import { AppStore } from "@app/index";
+import type { AppStore } from "@app/providers/StoreProvider/store";
+import { refreshToken } from "@entities/auth/model/service/refreshToken";
+import type { IThunkCustomError } from "@shared/api/error/model/types/error";
+import { envConfig } from "@shared/config/env";
 
 const contentType = "application/json";
-
-export const axiosWithCredentials = axios.create({
-  baseURL: import.meta.env.VITE_REACT_APP_BACKEND_API_URL,
-  headers: { "Content-type": contentType },
-  withCredentials: true
-});
-
-export const uninterceptedAxios = axios.create({
-  baseURL: import.meta.env.VITE_REACT_APP_BACKEND_API_URL,
-  headers: { "Content-type": contentType }
-});
 
 // type guard function for unknow type from redux thunk Payload action
 const hasError = (obj: unknown): obj is PayloadAction<IThunkCustomError> => {
@@ -24,7 +14,7 @@ const hasError = (obj: unknown): obj is PayloadAction<IThunkCustomError> => {
 };
 
 const setupAxios = (store: AppStore) => {
-  axios.defaults.baseURL = import.meta.env.VITE_REACT_APP_BACKEND_API_URL;
+  axios.defaults.baseURL = envConfig.BACKEND_API_URL;
   axios.defaults.headers.common.Accept = contentType;
   axios.defaults.headers.post["Content-Type"] = contentType;
 
@@ -71,21 +61,15 @@ const setupAxios = (store: AppStore) => {
       if (status === 401) {
         if (!isAlreadyFetchingAccessToken) {
           isAlreadyFetchingAccessToken = true;
-          store
-            .dispatch(refreshToken())
-            .then((action) => {
-              isAlreadyFetchingAccessToken = false;
-              if (hasError(action)) {
-                console.log("has error: ", action);
-              } else {
-                onAccessTokenFetched();
-              }
-              // мы попадаем сюда всегда, даже если refresh вызывается с ошибкой
-            })
-            .catch((err) => {
-              // а сюда вообще не попадаем!
-              console.error("refresh catch error!!!!", err);
-            });
+          store.dispatch(refreshToken()).then((action) => {
+            isAlreadyFetchingAccessToken = false;
+            if (hasError(action)) {
+              console.log("has error: ", action);
+            } else {
+              onAccessTokenFetched();
+            }
+            // мы попадаем сюда всегда, даже если refresh вызывается с ошибкой
+          });
         }
 
         return new Promise((resolve) => {

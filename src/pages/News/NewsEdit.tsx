@@ -1,32 +1,39 @@
 import { PageHeader } from "antd";
 import dayjs from "dayjs";
 import { useCallback, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-import { errorActions } from "@shared/api/error";
-import { useAppDispatch, useAppSelector } from "@app/index";
-import { convertIFileResponseToPhotoListItem } from "@shared/models/files";
 import {
   NewsEditForm,
   editNews,
   fetchNewsDetail,
   getNewsDetail,
-  getNewsLoading
+  getNewsLoading,
+  newsActions
 } from "@entities/news";
-import { INewsEditValues } from "@entities/news/model/types/news";
+import type { INewsEditValues } from "@entities/news/model/types/news";
+import { errorActions } from "@shared/api/error";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
+import { convertIFileResponseToPhotoListItem } from "@shared/models/files";
 
 import PageNotFound from "../404/PageNotFound";
 
-import { newsRoutes } from "./Routes";
+import { newsRoutesPaths } from "./routesPaths";
 
 const NewsEdit = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { navigateBack } = useNavigateBack();
+
+  const onBack = useCallback(() => {
+    dispatch(newsActions.resetDetail());
+    navigateBack(newsRoutesPaths.news.URL());
+  }, []);
 
   useEffect(() => {
-    void dispatch(errorActions.resetErrors());
-    id && dispatch(fetchNewsDetail(id));
+    dispatch(errorActions.resetErrors());
+    if (id) dispatch(fetchNewsDetail(id));
   }, [id]);
 
   const newsDetail = useAppSelector(getNewsDetail);
@@ -39,10 +46,9 @@ const NewsEdit = () => {
 
       void dispatch(
         editNews({
+          ...values,
           code: newsDetail.code,
           date: dayjs(values.date).format("YYYY-MM-DD HH:mm:ss"),
-          title: values.title,
-          content: values.content,
           photo: convertIFileResponseToPhotoListItem(values.photo[0].response)
         })
       );
@@ -57,14 +63,14 @@ const NewsEdit = () => {
   return (
     <>
       <PageHeader
-        title={`${newsRoutes.news_edit.title}: ${newsDetail.title}`}
-        onBack={() => navigate(newsRoutes.news.URL())}
+        title={`${newsRoutesPaths.news_edit.title}: ${newsDetail.title}`}
+        onBack={onBack}
       />
       <NewsEditForm
         newsDetail={newsDetail}
         loading={loading === "loading"}
         onSave={handleNewsEdit}
-        onCancel={() => navigate(newsRoutes.news.URL())}
+        onCancel={onBack}
       />
     </>
   );

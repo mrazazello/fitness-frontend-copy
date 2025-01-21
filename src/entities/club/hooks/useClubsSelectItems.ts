@@ -1,4 +1,4 @@
-import { useAppSelector } from "@app/index";
+import { useAppSelector } from "@shared/hooks/useAppStore";
 
 import { clubsSelectors } from "../model/selectors/clubSelectors";
 

@@ -1,16 +1,17 @@
 import { PageHeader } from "antd";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
+import type { IDocEditValues } from "@entities/docs";
+import { DocEditForm, createDoc } from "@entities/docs";
 import { errorActions } from "@shared/api/error";
-import { useAppDispatch } from "@app/index";
-import { DocEditForm, IDocEditValues, createDoc } from "@entities/docs";
-
-import { docsRoutes } from "./Routes";
+import { useAppDispatch } from "@shared/hooks/useAppStore";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
+import { docsRoutesPaths } from "./routesPaths";
 
 const DocCreate = () => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { navigateBack } = useNavigateBack();
+  const onBack = () => navigateBack(docsRoutesPaths.docs.URL());
 
   useEffect(() => {
     void dispatch(errorActions.resetErrors());
@@ -18,21 +19,14 @@ const DocCreate = () => {
 
   const handleDocCreate = async (values: IDocEditValues) => {
     await dispatch(createDoc(values)).then((res) => {
-      if (res.meta.requestStatus === "fulfilled")
-        navigate(docsRoutes.docs.URL());
+      if (res.meta.requestStatus === "fulfilled") onBack();
     });
   };
 
   return (
     <>
-      <PageHeader
-        title={docsRoutes.doc_create.title}
-        onBack={() => navigate(-1)}
-      />
-      <DocEditForm
-        onSave={handleDocCreate}
-        onCancel={() => navigate(docsRoutes.docs.URL())}
-      />
+      <PageHeader title={docsRoutesPaths.doc_create.title} onBack={onBack} />
+      <DocEditForm onSave={handleDocCreate} onCancel={onBack} />
     </>
   );
 };

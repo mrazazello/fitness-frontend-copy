@@ -1,17 +1,17 @@
 import { Pagination, Space, Switch, Table, Tag } from "antd";
-import { ColumnProps } from "antd/lib/table";
+import type { ColumnProps } from "antd/lib/table";
 
-import { IPagination } from "@shared/models/slice";
-import { useAppDispatch, useAppSelector } from "@app/index";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
+import useTableFilters from "@shared/hooks/useTableFilters";
+import type { IFilterOption } from "@shared/models/filterOptions";
+import type { IPagination } from "@shared/models/slice";
 import { DeleteEntityBtn } from "@shared/ui/DeleteEntityBtn/DeleteEntityBtn";
 import { EditEntityBtn } from "@shared/ui/EditEntityBtn/EditEntityBtn";
-import { IFilterOption } from "@shared/models/filterOptions";
 import { Sorter } from "@shared/ui/Sorter/Sorter";
-import useTableFilters from "@shared/hooks/useTableFilters";
 
-import { IProductListItem } from "../model/types/products";
-import { deleteProduct } from "../model/service/deleteProduct";
 import { getProductsFilters } from "../model/selectors/productsSelectors";
+import { deleteProduct } from "../model/service/deleteProduct";
+import type { IProductListItem } from "../model/types/products";
 
 type TProps = {
   products?: IProductListItem[];
@@ -46,7 +46,7 @@ export const ProductsList = (props: TProps) => {
       key: "clubs",
       responsive: ["xxl", "xl", "lg", "md"],
       filters: clubsFilterOptions,
-      filteredValue: productFilters.clubs,
+      filteredValue: productFilters.clubCode,
       render: (_, record) =>
         record.clubs.map((club) => <Tag key={club.code}>{club.name}</Tag>)
     },

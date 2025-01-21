@@ -1,14 +1,16 @@
 import { useNavigate } from "react-router-dom";
 
-import { useAppDispatch } from "@app/index";
-import { logOut } from "@entities/auth";
+import { useAppDispatch } from "@shared/hooks/useAppStore";
+
+import { logOut } from "../model/service/logOut";
 
 export const useLogout = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  return () => {
-    void dispatch(logOut());
-    navigate("/");
+  return (to: string) => {
+    void dispatch(logOut()).then(() => {
+      navigate(to);
+    });
   };
 };

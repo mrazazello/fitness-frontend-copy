@@ -1,21 +1,18 @@
 import { PageHeader } from "antd";
-import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
-import { errorActions } from "@shared/api/error";
-import { useAppDispatch } from "@app/index";
 import { useClubsSelectItems } from "@entities/club";
-import {
-  IProductEditValues,
-  ProductEditForm,
-  createProduct
-} from "@entities/products";
-
-import { productsRoutes } from "./Routes";
+import type { IProductEditValues } from "@entities/products";
+import { ProductEditForm, createProduct } from "@entities/products";
+import { errorActions } from "@shared/api/error";
+import { useAppDispatch } from "@shared/hooks/useAppStore";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
+import { productsRoutesPaths } from "./routesPaths";
 
 const ProductCreate = () => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { navigateBack } = useNavigateBack();
+  const onBack = () => navigateBack(productsRoutesPaths.products.URL());
 
   useEffect(() => {
     void dispatch(errorActions.resetErrors());
@@ -25,21 +22,20 @@ const ProductCreate = () => {
 
   const handleProductCreate = (values: IProductEditValues) => {
     void dispatch(createProduct(values)).then((res) => {
-      if (res.meta.requestStatus === "fulfilled")
-        navigate(productsRoutes.products.URL());
+      if (res.meta.requestStatus === "fulfilled") onBack();
     });
   };
 
   return (
     <>
       <PageHeader
-        title={productsRoutes.product_create.title}
-        onBack={() => navigate(productsRoutes.products.URL())}
+        title={productsRoutesPaths.product_create.title}
+        onBack={onBack}
       />
       <ProductEditForm
         clubsSelectOptions={clubsSelectOptions}
         onSave={handleProductCreate}
-        onCancel={() => navigate(productsRoutes.products.URL())}
+        onCancel={onBack}
       />
     </>
   );

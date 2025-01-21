@@ -1,26 +1,28 @@
 import { PageHeader } from "antd";
 import { useCallback, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-import { errorActions } from "@shared/api/error";
-import { useAppDispatch, useAppSelector } from "@app/index";
+import type { IProgrammEditValues } from "@entities/programms";
 import {
-  IProgrammEditValues,
   ProgramEditForm,
   editProgramm,
   fetchProgramm,
   getProggramsLoading,
   programmsSelectors
 } from "@entities/programms";
+import { errorActions } from "@shared/api/error";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
 
 import PageNotFound from "../404/PageNotFound";
 
-import { programmsRoutes } from "./Routes";
+import { programmsRoutesPaths } from "./routesPaths";
 
 const ProgrammEdit = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { navigateBack } = useNavigateBack();
+  const onBack = () => navigateBack(programmsRoutesPaths.programms.URL());
 
   useEffect(() => {
     void dispatch(errorActions.resetErrors());
@@ -54,14 +56,14 @@ const ProgrammEdit = () => {
   return (
     <>
       <PageHeader
-        title={`${programmsRoutes.programm_edit.title}: ${programm.name}`}
-        onBack={() => navigate(programmsRoutes.programms.URL())}
+        title={`${programmsRoutesPaths.programm_edit.title}: ${programm.name}`}
+        onBack={onBack}
       />
       <ProgramEditForm
         programm={programm}
         loading={loading === "loading"}
         onSave={handleProgrammEdit}
-        onCancel={() => navigate(programmsRoutes.programms.URL())}
+        onCancel={onBack}
       />
     </>
   );

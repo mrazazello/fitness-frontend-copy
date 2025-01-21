@@ -1,9 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
-import { IThunkConfig } from "@app/index";
+import type { IThunkConfig } from "@shared/api/error/model/types/error";
 
-import { IProductDetailResponse } from "../types/products";
+import type { IProductDetailResponse } from "../types/products";
 
 export const fetchProduct = createAsyncThunk<
   IProductDetailResponse,

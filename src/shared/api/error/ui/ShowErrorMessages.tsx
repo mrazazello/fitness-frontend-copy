@@ -1,7 +1,6 @@
 import { Alert, Typography } from "antd";
-import { uniqueId } from "lodash";
 
-import { useAppSelector } from "@app/index";
+import { useAppSelector } from "@shared/hooks/useAppStore";
 
 import { getErrors } from "../model/selectors/errorSelectors";
 
@@ -13,13 +12,13 @@ export const ShowErrorMessages = () => {
 
   return lastError ? (
     <Alert
-      key={uniqueId()}
+      key="error"
       message={lastError.message}
       description={
         lastError.details &&
         "violations" in lastError.details &&
-        lastError.details.violations.map((el) => (
-          <Text key={uniqueId()}>
+        lastError.details.violations.map((el, index) => (
+          <Text key={`${el.code}${index}`}>
             {el.field}: {el.message}
           </Text>
         ))

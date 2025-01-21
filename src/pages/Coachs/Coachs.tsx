@@ -1,24 +1,24 @@
 import { Button, Card, PageHeader } from "antd";
 import { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
 
-import { ShowErrorMessages, errorActions } from "@shared/api/error";
-import { useAppDispatch, useAppSelector } from "@app/index";
-import { ICoachListItem } from "@entities/coachs/model/types/coachs";
-import { addReactKeyByProperty } from "@shared/utils/addReactKey";
+import { useClubsSelectItems } from "@entities/club";
 import {
   CoachList,
   coachsSelectors,
   fetchCoachs,
   getCoachsLoading
 } from "@entities/coachs";
-import { useClubsSelectItems } from "@entities/club";
-
-import { coachsRoutes } from "./Routes";
+import type { ICoachListItem } from "@entities/coachs/model/types/coachs";
+import { ShowErrorMessages, errorActions } from "@shared/api/error";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
+import { addReactKeyByProperty } from "@shared/utils/addReactKey";
+import { coachsRoutesPaths } from "./routesPaths";
 
 const Coachs = () => {
-  const navigate = useNavigate();
+  const { navigateSave } = useNavigateBack();
   const dispatch = useAppDispatch();
+  const { clubsFilterOptions } = useClubsSelectItems();
 
   useEffect(() => {
     void dispatch(errorActions.resetErrors());
@@ -30,16 +30,18 @@ const Coachs = () => {
     useAppSelector(coachsSelectors.selectAll),
     "code"
   );
-  const { clubsFilterOptions } = useClubsSelectItems();
+
+  const handleCoachCreate = () =>
+    navigateSave(coachsRoutesPaths.coach_create.URL());
 
   return (
     <>
       <PageHeader
-        title={coachsRoutes.coachs.title}
+        title={coachsRoutesPaths.coachs.title}
         extra={
-          <Link to={coachsRoutes.coach_create.URL()}>
-            <Button type="primary">{coachsRoutes.coach_create.title}</Button>
-          </Link>
+          <Button type="primary" onClick={handleCoachCreate}>
+            {coachsRoutesPaths.coach_create.title}
+          </Button>
         }
       />
       <Card>
@@ -48,7 +50,9 @@ const Coachs = () => {
           coachs={coachs}
           loading={loading === "loading"}
           clubsFilterOptions={clubsFilterOptions}
-          onEdit={(code: string) => navigate(coachsRoutes.coach_edit.URL(code))}
+          onEdit={(code: string) =>
+            navigateSave(coachsRoutesPaths.coach_edit.URL(code))
+          }
         />
       </Card>
     </>

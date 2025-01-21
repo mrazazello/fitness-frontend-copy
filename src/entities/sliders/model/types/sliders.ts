@@ -1,4 +1,4 @@
-import { IPagination } from "@shared/models/slice";
+import type { IPagination } from "@shared/models/slice";
 
 export interface ISliderListItem {
   code: string;

@@ -1,21 +1,23 @@
 import { Card, PageHeader } from "antd";
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-import { ShowErrorMessages, errorActions } from "@shared/api/error";
-import { useAppDispatch, useAppSelector } from "@app/index";
 import {
   OrderCard,
   fetchOrder,
   getOrderDetail,
   getOrdersLoading
 } from "@entities/orders";
+import { ShowErrorMessages, errorActions } from "@shared/api/error";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
 
-import { ordersRoutes } from "./Routes";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
+
+import { ordersRoutesPaths } from "./routesPaths";
 
 const OrderPage = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
+  const { navigateBack } = useNavigateBack();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -29,8 +31,8 @@ const OrderPage = () => {
   return (
     <>
       <PageHeader
-        title={ordersRoutes.order.title}
-        onBack={() => navigate(ordersRoutes.orders.URL())}
+        title={ordersRoutesPaths.order.title}
+        onBack={() => navigateBack(ordersRoutesPaths.orders.URL())}
       />
       <Card loading={loading === "loading"}>
         <ShowErrorMessages />

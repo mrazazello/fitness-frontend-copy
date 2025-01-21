@@ -1,9 +1,8 @@
-import { UploadChangeParam, UploadFile } from "antd/lib/upload";
-import { uniqueId } from "lodash";
+import type { UploadChangeParam, UploadFile } from "antd/lib/upload";
 
 import backendPaths from "@shared/constants/backendPaths";
 
-import { IPhotoListItem } from "./photo";
+import type { IPhotoListItem } from "./photo";
 
 export interface ICreatedFile {
   code: string;
@@ -31,7 +30,7 @@ export const createInitUploadConfig = (
   if (!Array.isArray(photo)) {
     return [
       {
-        uid: uniqueId(),
+        uid: photo.urlPath,
         name: photo.urlPath,
         url: backendPaths.BACKEND_FILES_URL(photo.urlPath),
         response: photo
@@ -40,7 +39,7 @@ export const createInitUploadConfig = (
   }
   return photo.map((item) => {
     return {
-      uid: uniqueId(),
+      uid: item.urlPath,
       name: item.urlPath,
       url: backendPaths.BACKEND_FILES_URL(item.urlPath),
       response: item
@@ -64,7 +63,7 @@ export const convertIFileResponseToPhotoListItems = (
 ): IPhotoListItem[] => {
   const result: IPhotoListItem[] = [];
   response.forEach((item) => {
-    item.response &&
+    if (item.response)
       result.push({
         code: item.response.code,
         urlPath: item.response.urlPath,

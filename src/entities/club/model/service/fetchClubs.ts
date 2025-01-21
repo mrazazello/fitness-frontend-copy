@@ -1,9 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
-import { IThunkConfig } from "@app/index";
+import type { IThunkConfig } from "@shared/api/error/model/types/error";
 
-import { IClubsResponse } from "../types/clubs";
+import type { IClubsResponse } from "../types/clubs";
 
 export const fetchClubs = createAsyncThunk<
   IClubsResponse,

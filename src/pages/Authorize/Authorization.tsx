@@ -2,11 +2,11 @@ import { PageHeader } from "antd";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useAppDispatch, useAppSelector } from "@app/index";
 import { LoginForm, getAccessToken, getAuthIsLoading } from "@entities/auth";
 import { errorActions } from "@shared/api/error";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
 
-import { dashboardRoutes } from "../Dashboard/Routes";
+import { dashboardRoutesPaths } from "@pages/Dashboard/routesPaths";
 
 const Authorization = () => {
   const dispatch = useAppDispatch();
@@ -21,7 +21,7 @@ const Authorization = () => {
 
   useEffect(() => {
     if (loading === "idle" && accessToken !== null) {
-      navigate(dashboardRoutes.main.URL(), { replace: true });
+      navigate(dashboardRoutesPaths.main.URL(), { replace: true });
     }
   }, [loading, accessToken]);
 

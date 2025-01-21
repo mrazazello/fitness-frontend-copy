@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 
-import { IThunkConfig } from "@app/index";
-import { axiosWithCredentials } from "@shared/api/axios/axios";
+import { uninterceptedAxios } from "@shared/api/axios/unintercepted";
+import type { IThunkConfig } from "@shared/api/error/model/types/error";
 
-import { IRefreshResponse } from "../types/auth";
+import type { IRefreshResponse } from "../types/auth";
 
 export const refreshToken = createAsyncThunk<
   IRefreshResponse,
@@ -13,7 +13,9 @@ export const refreshToken = createAsyncThunk<
 >("auth/refreshToken", async (_, thunkAPI) => {
   const { rejectWithValue } = thunkAPI;
   try {
-    const response = await axiosWithCredentials.post("/auth/refresh");
+    const response = await uninterceptedAxios.post("/auth/refresh", {
+      withCredentials: true
+    });
     return response.data as IRefreshResponse;
   } catch (err) {
     if (err instanceof AxiosError) return rejectWithValue(err.response?.data);

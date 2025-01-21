@@ -1,24 +1,24 @@
 import { Button, Card, Space, Table, Typography } from "antd";
+import type { ColumnProps } from "antd/lib/table";
 import { useEffect, useState } from "react";
-import { ColumnProps } from "antd/lib/table";
 
-import { useAppDispatch, useAppSelector } from "@app/index";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
 import { DeleteEntityBtn } from "@shared/ui/DeleteEntityBtn/DeleteEntityBtn";
 import { EditEntityBtn } from "@shared/ui/EditEntityBtn/EditEntityBtn";
 import { addReactKeyByProperty } from "@shared/utils/addReactKey";
 
-import { IClubOptionsItem } from "../model/types/clubOptions";
-import { deleteOption } from "../model/service/deleteOption";
-import { fetchClubOptions } from "../model/service/fetchClubOptions";
 import {
   getClubOptions,
   getClubOptionsLoading
 } from "../model/selectors/clubOptionSelectors";
 import { createClubOption } from "../model/service/createClubOption";
+import { deleteOption } from "../model/service/deleteOption";
 import { editOption } from "../model/service/editOption";
+import { fetchClubOptions } from "../model/service/fetchClubOptions";
+import type { IClubOptionsItem } from "../model/types/clubOptions";
 
-import OptionEditModal from "./OptionEditModal";
 import OptionAddModal from "./OptionAddModal";
+import OptionEditModal from "./OptionEditModal";
 
 type TProps = {
   clubId: string;

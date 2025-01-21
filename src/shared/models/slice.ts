@@ -1,4 +1,4 @@
-import { FilterValue, Key, SortOrder } from "antd/lib/table/interface";
+import type { FilterValue, Key, SortOrder } from "antd/lib/table/interface";
 
 export interface IPagination {
   total: number;

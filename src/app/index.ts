@@ -1,16 +1,8 @@
-import {
-  store,
-  AppStore,
-  RootState,
-  IThunkConfig,
-  useAppDispatch,
-  useAppSelector
-} from "./providers/StoreProvider/store";
-import { StoreProvider } from "./providers/StoreProvider/StoreProvider";
 import { AntdConfigProvider } from "./providers/AntdConfigProvider/AntdConfigProvider";
 import { RouteProvider } from "./providers/RouteProvider/RouteProvider";
+import { StoreProvider } from "./providers/StoreProvider/StoreProvider";
+import type { RootState } from "./providers/StoreProvider/store";
+import { store } from "./providers/StoreProvider/store";
 
-export type { RootState, AppStore, IThunkConfig };
-export { useAppDispatch, useAppSelector };
-export { store };
-export { StoreProvider, AntdConfigProvider, RouteProvider };
+export { AntdConfigProvider, RouteProvider, StoreProvider, store };
+export type { RootState };

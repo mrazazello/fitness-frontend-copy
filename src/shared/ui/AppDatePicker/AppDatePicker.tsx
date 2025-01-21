@@ -1,6 +1,6 @@
 import generatePicker from "antd/es/date-picker/generatePicker";
-import { PickerProps } from "antd/lib/date-picker/generatePicker";
-import { PickerComponentClass } from "antd/lib/date-picker/generatePicker/interface";
+import type { PickerProps } from "antd/lib/date-picker/generatePicker";
+import type { PickerComponentClass } from "antd/lib/date-picker/generatePicker/interface";
 import { Dayjs } from "dayjs";
 import dayjsGenerateConfig from "rc-picker/lib/generate/dayjs";
 

@@ -3,10 +3,10 @@ import { useCallback } from "react";
 
 import { ShowErrorMessages, errorActions } from "@shared/api/error";
 import * as form from "@shared/constants/formsWrappers";
-import { useAppDispatch } from "@app/index";
+import { useAppDispatch } from "@shared/hooks/useAppStore";
 
-import { ILoginFormValues } from "../model/types/auth";
 import { login } from "../model/service/login";
+import type { ILoginFormValues } from "../model/types/auth";
 
 type TProps = {
   loading: boolean;

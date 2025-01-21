@@ -1,11 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
-import { convertPhotoListItemoPhotoCodes } from "@shared/models/files";
-import { IThunkConfig } from "@app/index";
 import { errorActions } from "@shared/api/error";
+import type { IThunkConfig } from "@shared/api/error/model/types/error";
+import { convertPhotoListItemoPhotoCodes } from "@shared/models/files";
 
-import { IClubsEditPhotosArgs, IClubsEditPhotosRequest } from "../types/clubs";
+import type {
+  IClubsEditPhotosArgs,
+  IClubsEditPhotosRequest
+} from "../types/clubs";
 
 export const editClubPhotos = createAsyncThunk<
   null,

@@ -1,32 +1,35 @@
-import { ICoachListItem, ICoachDetail } from "./model/types/coachs";
-import {
-  coachActions,
-  coachReducer,
-  ICoachsSchema
-} from "./model/slice/coachsSlice";
-import { fetchCoachs } from "./model/service/fetchCoachs";
-import { createCoach } from "./model/service/createCoach";
-import { deleteCoach } from "./model/service/deleteCoach";
-import { fetchCoach } from "./model/service/fetchCoach";
-import { editCoach } from "./model/service/editCoach";
 import {
   coachsSelectors,
-  getCoachsLoading,
   getCoachDetail,
   getCoachFilters,
-  getCoachSorter
+  getCoachSorter,
+  getCoachsLoading
 } from "./model/selectors/coachSelectors";
+import { createCoach } from "./model/service/createCoach";
+import { deleteCoach } from "./model/service/deleteCoach";
+import { editCoach } from "./model/service/editCoach";
+import { fetchCoach } from "./model/service/fetchCoach";
+import { fetchCoachs } from "./model/service/fetchCoachs";
+import type { ICoachsSchema } from "./model/slice/coachsSlice";
+import { coachActions, coachReducer } from "./model/slice/coachsSlice";
+import type { ICoachDetail, ICoachListItem } from "./model/types/coachs";
 import { CoachEditForm } from "./ui/CoachEditForm";
 import { CoachList } from "./ui/CoachList";
 
-export type { ICoachListItem, ICoachDetail, ICoachsSchema };
-export { coachActions, coachReducer };
-export { fetchCoachs, createCoach, deleteCoach, fetchCoach, editCoach };
 export {
+  CoachEditForm,
+  CoachList,
+  coachActions,
+  coachReducer,
   coachsSelectors,
-  getCoachsLoading,
+  createCoach,
+  deleteCoach,
+  editCoach,
+  fetchCoach,
+  fetchCoachs,
   getCoachDetail,
   getCoachFilters,
-  getCoachSorter
+  getCoachSorter,
+  getCoachsLoading
 };
-export { CoachEditForm, CoachList };
+export type { ICoachDetail, ICoachListItem, ICoachsSchema };

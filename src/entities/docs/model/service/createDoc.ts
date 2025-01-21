@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
-import { IThunkConfig } from "@app/index";
 import { errorActions } from "@shared/api/error";
+import type { IThunkConfig } from "@shared/api/error/model/types/error";
 
-import { IDocCreateRequest, IDocCreateResponse } from "../types/docs";
+import type { IDocCreateRequest, IDocCreateResponse } from "../types/docs";
 
 export const createDoc = createAsyncThunk<
   IDocCreateResponse,

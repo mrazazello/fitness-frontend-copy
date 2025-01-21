@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
-import { IThunkConfig } from "@app/index";
 import { errorActions } from "@shared/api/error";
+import type { IThunkConfig } from "@shared/api/error/model/types/error";
 
-import { ISliderDetailResponse, ISliderListItem } from "../types/sliders";
+import type { ISliderDetailResponse, ISliderListItem } from "../types/sliders";
 
 import { fetchSliders } from "./fetchSliders";
 

@@ -1,27 +1,33 @@
 import { Card, PageHeader } from "antd";
 import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 
-import { ShowErrorMessages, errorActions } from "@shared/api/error";
-import { useAppDispatch, useAppSelector } from "@app/index";
-import { addReactKeyByProperty } from "@shared/utils/addReactKey";
+import type { IFormQueriesListItem } from "@entities/formQueries";
 import {
   FormsList,
-  IFormQueriesListItem,
   fetchformQueries,
   formQueriesSelectors,
   getFormQueriesLoading,
   getFormQueriesPagination
 } from "@entities/formQueries";
+import { ShowErrorMessages, errorActions } from "@shared/api/error";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
+import { addReactKeyByProperty } from "@shared/utils/addReactKey";
+import useTableFilters from "@shared/hooks/useTableFilters";
 
-import { formsRoutes } from "./Routes";
+import { formsRoutesPaths } from "./routesPaths";
 
 const FormQueries = () => {
   const dispatch = useAppDispatch();
+  const [searchParams] = useSearchParams();
+  const { onPageChange } = useTableFilters();
 
   useEffect(() => {
     void dispatch(errorActions.resetErrors());
-    void dispatch(fetchformQueries({ page: 1 }));
-  }, []);
+    void dispatch(
+      fetchformQueries({ page: Number(searchParams.get("page")) || 1 })
+    );
+  }, [searchParams]);
 
   const loading = useAppSelector(getFormQueriesLoading);
   const pagination = useAppSelector(getFormQueriesPagination);
@@ -31,13 +37,9 @@ const FormQueries = () => {
     "code"
   );
 
-  const onPageChange = (page: number) => {
-    void dispatch(fetchformQueries({ page }));
-  };
-
   return (
     <>
-      <PageHeader title={formsRoutes.form_queries.title} />
+      <PageHeader title={formsRoutesPaths.form_queries.title} />
       <Card>
         <ShowErrorMessages />
         <FormsList
@@ -45,7 +47,7 @@ const FormQueries = () => {
           loading={loading === "loading"}
           pagination={pagination}
           onPageChange={onPageChange}
-          onView={(code: string) => formsRoutes.form_querie.URL(code)}
+          onView={(code: string) => formsRoutesPaths.form_querie.URL(code)}
         />
       </Card>
     </>

@@ -1,4 +1,4 @@
-import { RootState } from "@app/index";
+import type { RootState } from "@app/index";
 
 import { prorgammsAdapter } from "../slice/programmsSlice";
 

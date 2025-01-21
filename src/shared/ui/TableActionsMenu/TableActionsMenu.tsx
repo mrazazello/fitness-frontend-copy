@@ -1,6 +1,7 @@
 import { EllipsisOutlined } from "@ant-design/icons";
-import { Button, Dropdown, MenuProps } from "antd";
-import { ReactElement } from "react";
+import type { MenuProps } from "antd";
+import { Button, Dropdown } from "antd";
+import type { ReactElement } from "react";
 
 type IActionMenuProperties = {
   key: React.Key;
@@ -16,18 +17,16 @@ type TProps = {
 const TableActionsMenu = (props: TProps) => {
   const { menu, className } = props;
 
-  const items: MenuProps["items"] = menu.map((item) => {
-    return {
-      key: item.key,
-      label: item.element
-    };
-  });
+  const items: MenuProps["items"] = menu.map((item) => ({
+    key: item.key,
+    label: item.element
+  }));
 
-  return items ? (
+  return (
     <Dropdown menu={{ items }} placement="topRight" className={className} arrow>
       <Button type="text" icon={<EllipsisOutlined />} />
     </Dropdown>
-  ) : null;
+  );
 };
 
 export default TableActionsMenu;

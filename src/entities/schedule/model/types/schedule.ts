@@ -1,4 +1,5 @@
-import { IPagination } from "@shared/models/slice";
+import type { IPagination } from "@shared/models/slice";
+import { Dayjs } from "dayjs";
 
 type dayOfWeekCode = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
@@ -69,7 +70,7 @@ export interface IScheduleListResponse {
 }
 
 export interface IScheduleCreateValues {
-  startedAt: string;
+  startedAt: Dayjs;
   programCode: string;
   teacherCode: string;
   areaCode: string;
@@ -91,7 +92,14 @@ export interface IScheduleEditArgs extends IScheduleCreateArgs {
   code: string;
 }
 
-export type IScheduleCreateRequest = IScheduleCreateValues;
+export type IScheduleCreateRequest = {
+  startedAt: string;
+  programCode: string;
+  teacherCode: string;
+  areaCode: string;
+  paid: boolean;
+  comment: string;
+};
 
 export interface IScheduleCreateResponse {
   code: string;
@@ -129,7 +137,7 @@ export interface IScheduleCypyResponse {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IScheduleEditRequest extends IScheduleCreateValues {}
+export type IScheduleEditRequest = IScheduleCreateRequest;
 
 export const convertScheduleCreateArgsToDetail = (
   args: IScheduleCreateArgs

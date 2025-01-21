@@ -1,4 +1,4 @@
-import { RootState } from "@app/index";
+import type { RootState } from "@app/index";
 
 export const getClubAreas = (state: RootState) => state.clubAreas.clubAreas;
 

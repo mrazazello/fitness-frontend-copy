@@ -1,4 +1,4 @@
-import { ItemType } from "antd/lib/menu/hooks/useItems";
+import type { ItemType } from "antd/lib/menu/hooks/useItems";
 import { Link } from "react-router-dom";
 
 import frontendPaths from "@app/providers/RouteProvider/routes";

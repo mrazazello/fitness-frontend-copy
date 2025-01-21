@@ -1,38 +1,27 @@
 import { MenuOutlined } from "@ant-design/icons";
+import { lazy } from "react";
 
-import { IRoutes } from "@shared/models/routes";
+import type { IRoutes } from "@shared/models/routes";
 
-import { ProgrammsAsync } from "./Programms.async";
-import { ProgrammEditAsync } from "./ProgrammEdit.async";
-import { ProgrammCreateAsync } from "./ProgrammCreate.async";
+const ProgrammCreateAsync = lazy(() => import("./ProgrammCreate"));
+const ProgrammEditAsync = lazy(() => import("./ProgrammEdit"));
+const ProgrammsAsync = lazy(() => import("./Programms"));
 
-export enum ProgrammsSlugsEnum {
-  programms = "programms",
-  programm_edit = "programm_edit",
-  programm_create = "programm_create"
-}
+import type { ProgrammsSlugsEnum } from "./routesPaths";
+import { programmsRoutesPaths } from "./routesPaths";
 
 export const programmsRoutes: IRoutes<ProgrammsSlugsEnum> = {
   programms: {
-    URL: () => "/programms",
+    ...programmsRoutesPaths.programms,
     element: <ProgrammsAsync />,
-    title: "Программы",
-    public: false,
-    mainMenu: true,
     icon: <MenuOutlined />
   },
   programm_edit: {
-    URL: (id = ":id") => `/programms/${id}/edit`,
-    element: <ProgrammEditAsync />,
-    title: "Редактирование программы",
-    public: false,
-    mainMenu: false
+    ...programmsRoutesPaths.programm_edit,
+    element: <ProgrammEditAsync />
   },
   programm_create: {
-    URL: () => "/programms/create",
-    element: <ProgrammCreateAsync />,
-    title: "Добавление программы",
-    public: false,
-    mainMenu: false
+    ...programmsRoutesPaths.programm_create,
+    element: <ProgrammCreateAsync />
   }
 };

@@ -1,4 +1,4 @@
-import { useAppSelector } from "@app/index";
+import { useAppSelector } from "@shared/hooks/useAppStore";
 
 import { streetTypesSelectors } from "../model/selectors/streetTypesSelectors";
 

@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
+import type { IThunkConfig } from "@shared/api/error/model/types/error";
 import convertDayWeekArr from "@shared/utils/convertDayWeekArr";
-import { IThunkConfig } from "@app/index";
 
-import {
+import type {
   IScheduleListRequestParams,
   IScheduleListResponse
 } from "../types/schedule";

@@ -5,7 +5,7 @@ import getFullName from "@shared/utils/getFullName";
 import PaymentStatus from "@shared/ui/PaymentStatus/PaymentStatus";
 import { dateFormatDate, dateFormatFull } from "@shared/constants/params";
 
-import { IOrderDetail } from "../model/types/orders";
+import type { IOrderDetail } from "../model/types/orders";
 
 type TProps = {
   orderDetail?: IOrderDetail;

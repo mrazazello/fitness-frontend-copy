@@ -1,9 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
-import { IThunkConfig } from "@app/index";
+import type { IThunkConfig } from "@shared/api/error/model/types/error";
 
-import { IStreetTypesResponse } from "../types/streetTypes";
+import type { IStreetTypesResponse } from "../types/streetTypes";
 
 export const fetchstreetTypes = createAsyncThunk<
   IStreetTypesResponse,

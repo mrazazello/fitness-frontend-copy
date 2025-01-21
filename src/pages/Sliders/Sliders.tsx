@@ -1,30 +1,34 @@
 import { Button, Card, PageHeader } from "antd";
 import { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
-import { ShowErrorMessages, errorActions } from "@shared/api/error";
-import { useAppDispatch, useAppSelector } from "@app/index";
-import { addReactKeyByProperty } from "@shared/utils/addReactKey";
+import type { ISliderListItem } from "@entities/sliders";
 import {
+  SlidersList,
   fetchSliders,
   getSlidersLoading,
   getSlidersPagination,
-  ISliderListItem,
-  SlidersList,
   slidersSelectors,
   toggleSlider
 } from "@entities/sliders";
+import { ShowErrorMessages, errorActions } from "@shared/api/error";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
+import useTableFilters from "@shared/hooks/useTableFilters";
+import { addReactKeyByProperty } from "@shared/utils/addReactKey";
 
-import { slidersRoutes } from "./Routes";
+import { slidersRoutesPaths } from "./routesPaths";
 
 const Sliders = () => {
-  const navigate = useNavigate();
+  const { navigateSave } = useNavigateBack();
   const dispatch = useAppDispatch();
+  const { onPageChange } = useTableFilters();
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     void dispatch(errorActions.resetErrors());
-    void dispatch(fetchSliders(1));
-  }, []);
+    void dispatch(fetchSliders(Number(searchParams.get("page")) || 1));
+  }, [searchParams]);
 
   const loading = useAppSelector(getSlidersLoading);
   const pagination = useAppSelector(getSlidersPagination);
@@ -37,17 +41,15 @@ const Sliders = () => {
     void dispatch(toggleSlider(slider));
   };
 
-  const onPageChange = (page: number) => {
-    void dispatch(fetchSliders(page));
-  };
-
   return (
     <>
       <PageHeader
         title="Слайдеры"
         extra={
-          <Link to={slidersRoutes.slider_create.URL()}>
-            <Button type="primary">{slidersRoutes.slider_create.title}</Button>
+          <Link to={slidersRoutesPaths.slider_create.URL()}>
+            <Button type="primary">
+              {slidersRoutesPaths.slider_create.title}
+            </Button>
           </Link>
         }
       />
@@ -59,7 +61,7 @@ const Sliders = () => {
           pagination={pagination}
           onPageChange={onPageChange}
           onEdit={(code: string) =>
-            navigate(slidersRoutes.slider_edit.URL(code))
+            navigateSave(slidersRoutesPaths.slider_edit.URL(code))
           }
           onToggle={handleTogleSlider}
         />

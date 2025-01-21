@@ -1,6 +1,7 @@
-import { AnyAction, PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
+import type { AnyAction, PayloadAction } from "@reduxjs/toolkit";
 
-import { IThunkCustomError } from "../types/error";
+import type { IThunkCustomError } from "../types/error";
 
 export interface IErrorSchema {
   errors: IThunkCustomError[];
@@ -43,12 +44,6 @@ const errorSlice = createSlice({
           state.errors.push(err);
         }
       );
-    //   .addMatcher(
-    //     isThunkActionFullfield,
-    //     (state) => {
-    //       state.errors = []; // if response is ok reset all errors
-    //     }
-    //   );
   }
 });
 

@@ -1,8 +1,8 @@
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 
-import { IEntitiesState } from "@shared/models/slice";
+import type { IEntitiesState } from "@shared/models/slice";
 
-import { IProgramListItem } from "../types/programms";
+import type { IProgramListItem } from "../types/programms";
 import { fetchProgramms } from "../service/fetchProgramms";
 import { fetchProgramm } from "../service/fetchProgramm";
 import { createProgramm } from "../service/createProgramm";

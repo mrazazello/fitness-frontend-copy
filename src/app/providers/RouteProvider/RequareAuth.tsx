@@ -1,7 +1,7 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
-import { useAppSelector } from "@app/index";
 import { getAccessToken } from "@entities/auth";
+import { useAppSelector } from "@shared/hooks/useAppStore";
 
 import frontendPaths from "./routes";
 

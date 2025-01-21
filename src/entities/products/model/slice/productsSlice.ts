@@ -1,29 +1,28 @@
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 
-import { FilterType, IEntitiesState } from "@shared/models/slice";
+import type { FilterType, IEntitiesState } from "@shared/models/slice";
 
-import {
+import { createProduct } from "../service/createProduct";
+import { deleteProduct } from "../service/deleteProduct";
+import { editProduct } from "../service/editProduct";
+import { fetchAllProducts } from "../service/fetchAllProducts";
+import { fetchProduct } from "../service/fetchProduct";
+import { fetchProducts } from "../service/fetchProducts";
+import type {
   IProductDetail,
   IProductListItem,
   IProductSelectItem
 } from "../types/products";
-import { fetchProducts } from "../service/fetchProducts";
-import { fetchProduct } from "../service/fetchProduct";
-import { fetchAllProducts } from "../service/fetchAllProducts";
-import { createProduct } from "../service/createProduct";
-import { editProduct } from "../service/editProduct";
-import { deleteProduct } from "../service/deleteProduct";
 
 export interface IProductsSchema extends IEntitiesState {
   entities?: IProductListItem[];
-  productDetail: IProductDetail | null;
+  productDetail?: IProductDetail;
   allProducts?: IProductSelectItem[];
   filters: FilterType;
 }
 
 const initialState: IProductsSchema = {
   loading: "idle",
-  productDetail: null,
   filters: {}
 };
 
@@ -34,7 +33,11 @@ export const productsAdapter = createEntityAdapter({
 const productsSlice = createSlice({
   name: "products",
   initialState: productsAdapter.getInitialState(initialState),
-  reducers: {},
+  reducers: {
+    resetDetail: (state) => {
+      state.productDetail = undefined;
+    }
+  },
   extraReducers: (builder) => {
     builder
       // fetch products
@@ -42,6 +45,7 @@ const productsSlice = createSlice({
         productsAdapter.removeAll(state);
         productsAdapter.addMany(state, action.payload.products.items);
         state.pagination = action.payload.products.pagination;
+        state.filters = action.payload.products.filter;
         state.loading = "idle";
       })
       .addCase(fetchProducts.rejected, (state) => {
@@ -106,17 +110,7 @@ const productsSlice = createSlice({
           }
         };
         productsAdapter.updateOne(state, update);
-        const productDetail: IProductDetail = {
-          code: action.meta.arg.code,
-          active: action.meta.arg.active,
-          title: action.meta.arg.title,
-          oldPrice: action.meta.arg.oldPrice,
-          price: action.meta.arg.price,
-          clubs: action.meta.arg.clubs,
-          promocode: action.meta.arg.promocode,
-          description: action.meta.arg.description
-        };
-        state.productDetail = productDetail;
+        state.productDetail = { ...action.meta.arg };
         state.loading = "idle";
       })
       .addCase(editProduct.rejected, (state) => {

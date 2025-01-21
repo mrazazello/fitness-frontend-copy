@@ -1,9 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
-import { IThunkConfig } from "@app/index";
+import type { IThunkConfig } from "@shared/api/error/model/types/error";
 
-import { IRefreshResponse } from "../types/auth";
+import type { IRefreshResponse } from "../types/auth";
 
 export const logOut = createAsyncThunk<
   IRefreshResponse,

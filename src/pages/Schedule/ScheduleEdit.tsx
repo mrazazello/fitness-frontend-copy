@@ -1,33 +1,46 @@
 import { PageHeader } from "antd";
 import dayjs from "dayjs";
-import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useCallback, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
-import { errorActions } from "@shared/api/error";
-import { useAppDispatch, useAppSelector } from "@app/index";
-import getFullName from "@shared/utils/getFullName";
 import {
+  fetchAllAreas,
+  getClubAllAreas,
+  useAreasByClub
+} from "@entities/clubAreas";
+import { coachsSelectors, fetchCoachs } from "@entities/coachs";
+import { fetchProgramms, programmsSelectors } from "@entities/programms";
+import type {
   IScheduleCreateValues,
-  IScheduleEditArgs,
+  IScheduleEditArgs
+} from "@entities/schedule";
+import {
   ScheduleEditForm,
   createEvent,
   editEvent,
   fetchEvent,
   getScheduleDetail,
-  getScheduleLoading
+  getScheduleLoading,
+  scheduleActions
 } from "@entities/schedule";
-import { coachsSelectors, fetchCoachs } from "@entities/coachs";
-import { fetchProgramms, programmsSelectors } from "@entities/programms";
-import { fetchAllAreas, getClubAllAreas } from "@entities/clubAreas";
+import { errorActions } from "@shared/api/error";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
+import getFullName from "@shared/utils/getFullName";
 
 import PageNotFound from "../404/PageNotFound";
 
-import { scheduleRoutes } from "./Routes";
+import { scheduleRoutesPaths } from "./routesPaths";
 
 const ScheduleEdit = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { navigateBack } = useNavigateBack();
+
+  const onBack = useCallback(() => {
+    dispatch(scheduleActions.resetEventDetail());
+    navigateBack(scheduleRoutesPaths.schedule.URL());
+  }, []);
 
   useEffect(() => {
     void dispatch(errorActions.resetErrors());
@@ -53,10 +66,7 @@ const ScheduleEdit = () => {
   }));
 
   const clubAllAreas = useAppSelector(getClubAllAreas);
-  const areasOptions = clubAllAreas?.map((item) => ({
-    value: item.code,
-    label: `${item.name} (${item.club.name})`
-  }));
+  const areasOptions = useAreasByClub();
 
   const handleScheduleEdit = (values: IScheduleCreateValues) => {
     const teacher = coachs.find((item) => item.code === values.teacherCode);
@@ -101,10 +111,10 @@ const ScheduleEdit = () => {
   return (
     <>
       <PageHeader
-        title={`${scheduleRoutes.schedule_edit.title}: ${dayjs(
+        title={`${scheduleRoutesPaths.schedule_edit.title}: ${dayjs(
           eventDetail.startedAt
         ).format("YYYY-MM-DD HH:mm")}`}
-        onBack={() => navigate(scheduleRoutes.schedule.URL())}
+        onBack={onBack}
       />
       <ScheduleEditForm
         eventDetail={eventDetail}
@@ -114,7 +124,7 @@ const ScheduleEdit = () => {
         areasOptions={areasOptions}
         onSave={handleScheduleEdit}
         onSaveAs={handleScheduleSaveAs}
-        onCancel={() => navigate(scheduleRoutes.schedule.URL())}
+        onCancel={onBack}
       />
     </>
   );

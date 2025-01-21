@@ -1,26 +1,27 @@
 import { Card, PageHeader } from "antd";
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-import { ShowErrorMessages, errorActions } from "@shared/api/error";
-import { useAppDispatch, useAppSelector } from "@app/index";
 import {
   FormCard,
   fetchformQuerie,
   getFormQueriesDetail,
   getFormQueriesLoading
 } from "@entities/formQueries";
+import { ShowErrorMessages, errorActions } from "@shared/api/error";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
 
-import { formsRoutes } from "./Routes";
+import { formsRoutesPaths } from "./routesPaths";
 
 const FormQueriesPage = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
+  const { navigateBack } = useNavigateBack();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     void dispatch(errorActions.resetErrors());
-    id && dispatch(fetchformQuerie(id));
+    if (id) dispatch(fetchformQuerie(id));
   }, [id]);
 
   const loading = useAppSelector(getFormQueriesLoading);
@@ -29,8 +30,8 @@ const FormQueriesPage = () => {
   return (
     <>
       <PageHeader
-        title={formsRoutes.form_querie.title}
-        onBack={() => navigate(formsRoutes.form_queries.URL())}
+        title={formsRoutesPaths.form_querie.title}
+        onBack={() => navigateBack(formsRoutesPaths.form_queries.URL())}
       />
       <Card loading={loading === "loading"}>
         <ShowErrorMessages />

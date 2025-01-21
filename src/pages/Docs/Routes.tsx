@@ -1,38 +1,27 @@
 import { SnippetsOutlined } from "@ant-design/icons";
+import { lazy } from "react";
 
-import { IRoutes } from "@shared/models/routes";
+import type { IRoutes } from "@shared/models/routes";
 
-import { DocsAsync } from "./Docs.async";
-import { DocCreateAsync } from "./DocCreate.async";
-import { DocEditAsync } from "./DocEdit.async";
+const DocCreateAsync = lazy(() => import("./DocCreate"));
+const DocEditAsync = lazy(() => import("./DocEdit"));
+const DocsAsync = lazy(() => import("./Docs"));
 
-export enum DocsSlugsEnum {
-  docs = "docs",
-  doc_create = "doc_create",
-  doc_edit = "doc_edit"
-}
+import type { DocsSlugsEnum } from "./routesPaths";
+import { docsRoutesPaths } from "./routesPaths";
 
 export const docsRoutes: IRoutes<DocsSlugsEnum> = {
   docs: {
-    URL: () => "/docs",
+    ...docsRoutesPaths.docs,
     element: <DocsAsync />,
-    title: "Документы",
-    public: false,
-    mainMenu: true,
     icon: <SnippetsOutlined />
   },
   doc_create: {
-    URL: () => "/docs/create",
-    element: <DocCreateAsync />,
-    title: "Добавление документа",
-    public: false,
-    mainMenu: false
+    ...docsRoutesPaths.doc_create,
+    element: <DocCreateAsync />
   },
   doc_edit: {
-    URL: (id = ":id") => `/docs/${id}/edit`,
-    element: <DocEditAsync />,
-    title: "Редактирование документа",
-    public: false,
-    mainMenu: false
+    ...docsRoutesPaths.doc_edit,
+    element: <DocEditAsync />
   }
 };

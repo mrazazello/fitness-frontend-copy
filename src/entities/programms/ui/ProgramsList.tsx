@@ -1,12 +1,12 @@
 import { Space, Table } from "antd";
-import { ColumnProps } from "antd/lib/table";
+import type { ColumnProps } from "antd/lib/table";
 
-import { EditEntityBtn } from "@shared/ui/EditEntityBtn/EditEntityBtn";
+import { useAppDispatch } from "@shared/hooks/useAppStore";
 import { DeleteEntityBtn } from "@shared/ui/DeleteEntityBtn/DeleteEntityBtn";
-import { useAppDispatch } from "@app/index";
+import { EditEntityBtn } from "@shared/ui/EditEntityBtn/EditEntityBtn";
 
-import { IProgramListItem } from "../model/types/programms";
 import { deleteProgramm } from "../model/service/deleteProgramm";
+import type { IProgramListItem } from "../model/types/programms";
 
 type TProps = {
   programms?: IProgramListItem[];
@@ -24,13 +24,6 @@ export const ProgramsList = (props: TProps) => {
       dataIndex: "name",
       key: "name",
       width: "20%"
-    },
-    {
-      title: "Описание",
-      dataIndex: "description",
-      key: "description",
-      width: "50%",
-      responsive: ["xxl", "xl", "lg", "md"]
     },
     {
       title: "Продолжительность",

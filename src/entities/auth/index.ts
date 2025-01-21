@@ -1,19 +1,25 @@
-import { IAuthSchema } from "./model/slice/authSlice";
-import { ILoginFormValues } from "./model/types/auth";
-import { authReducer, authActions } from "./model/slice/authSlice";
-import { login } from "./model/service/login";
-import { refreshToken } from "./model/service/refreshToken";
-import { logOut } from "./model/service/logOut";
 import { useLogout } from "./hooks/useLogout";
 import {
-  getAuthIsLoading,
-  getAccessToken
+  getAccessToken,
+  getAuthIsLoading
 } from "./model/selectors/authSelectors";
+import { logOut } from "./model/service/logOut";
+import { login } from "./model/service/login";
+import { refreshToken } from "./model/service/refreshToken";
+import type { IAuthSchema } from "./model/slice/authSlice";
+import { authActions, authReducer } from "./model/slice/authSlice";
+import type { ILoginFormValues } from "./model/types/auth";
 import { LoginForm } from "./ui/LoginForm";
 
-export type { ILoginFormValues, IAuthSchema };
-export { authReducer, authActions };
-export { getAuthIsLoading, getAccessToken };
-export { login, refreshToken, logOut };
-export { useLogout };
-export { LoginForm };
+export {
+  LoginForm,
+  authActions,
+  authReducer,
+  getAccessToken,
+  getAuthIsLoading,
+  logOut,
+  login,
+  refreshToken,
+  useLogout
+};
+export type { IAuthSchema, ILoginFormValues };

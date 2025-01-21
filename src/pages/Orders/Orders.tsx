@@ -1,27 +1,31 @@
 import { Card, PageHeader } from "antd";
 import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 
-import { ShowErrorMessages, errorActions } from "@shared/api/error";
-import { useAppDispatch, useAppSelector } from "@app/index";
-import { addReactKeyByProperty } from "@shared/utils/addReactKey";
+import type { IOrdersListItem } from "@entities/orders";
 import {
-  IOrdersListItem,
   OrdersList,
   fetchOrders,
   getOrdersLoading,
   getOrdersPagination,
   ordersSelectors
 } from "@entities/orders";
+import { ShowErrorMessages, errorActions } from "@shared/api/error";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
+import useTableFilters from "@shared/hooks/useTableFilters";
+import { addReactKeyByProperty } from "@shared/utils/addReactKey";
 
-import { ordersRoutes } from "./Routes";
+import { ordersRoutesPaths } from "./routesPaths";
 
 const Orders = () => {
   const dispatch = useAppDispatch();
+  const [searchParams] = useSearchParams();
+  const { onPageChange } = useTableFilters();
 
   useEffect(() => {
     void dispatch(errorActions.resetErrors());
-    void dispatch(fetchOrders({ page: 1 }));
-  }, []);
+    void dispatch(fetchOrders({ page: Number(searchParams.get("page")) || 1 }));
+  }, [searchParams]);
 
   const loading = useAppSelector(getOrdersLoading);
   const pagination = useAppSelector(getOrdersPagination);
@@ -31,20 +35,16 @@ const Orders = () => {
     "code"
   );
 
-  const onPageChange = (page: number) => {
-    void dispatch(fetchOrders({ page }));
-  };
-
   return (
     <>
-      <PageHeader title={ordersRoutes.orders.title} />
+      <PageHeader title={ordersRoutesPaths.orders.title} />
       <Card>
         <ShowErrorMessages />
         <OrdersList
           orders={orders}
           loading={loading === "loading"}
           pagination={pagination}
-          onView={(code: string) => ordersRoutes.order.URL(code)}
+          onView={(code: string) => ordersRoutesPaths.order.URL(code)}
           onPageChange={onPageChange}
         />
       </Card>

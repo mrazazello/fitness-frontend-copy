@@ -1,9 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
-import { IThunkConfig } from "@app/index";
+import type { IThunkConfig } from "@shared/api/error/model/types/error";
 
-import { ICoachsResponse } from "../types/coachs";
+import type { ICoachsResponse } from "../types/coachs";
 
 export const fetchCoachs = createAsyncThunk<
   ICoachsResponse,

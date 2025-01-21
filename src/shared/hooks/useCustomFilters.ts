@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import isStringArray from "@shared/utils/typeGueards";
 
@@ -11,30 +11,42 @@ const useCustomFilters = <T extends string>() => {
 
   const [filters, setFilters] = useState<Record<T, TFilterValue>>();
 
-  const onFiltersChange = (filtersArg: Record<T, TFilterValue>) => {
-    setFilters(filtersArg);
-
+  useEffect(() => {
+    const res: Record<string, TFilterValue> = {};
     const keys = Array.from(searchParams.keys());
-    // eslint-disable-next-line no-restricted-syntax
-    for (const key of keys) searchParams.delete(key);
 
-    Object.entries(filtersArg).forEach(([key, values]) => {
-      if (values && Array.isArray(values) && isStringArray(values)) {
-        values.forEach((value) => {
-          value && searchParams.append(key, value);
-        });
-      } else {
-        typeof values === "string" && searchParams.append(key, values);
-      }
-    });
+    for (const key of keys) {
+      const params = searchParams.getAll(key);
+      if (params) res[key] = params;
+    }
 
-    navigate(`?${searchParams.toString()}`);
-  };
+    setFilters(res);
+  }, [searchParams]);
 
-  const resetFilters = () => {
-    setFilters(undefined);
+  const onFiltersChange = useCallback(
+    (filtersArg: Record<T, TFilterValue>) => {
+      const keys = Array.from(searchParams.keys());
+      // eslint-disable-next-line no-restricted-syntax
+      for (const key of keys) searchParams.delete(key);
+
+      Object.entries(filtersArg).forEach(([key, values]) => {
+        if (values && Array.isArray(values) && isStringArray(values)) {
+          values.forEach((value) => {
+            if (value) searchParams.append(key, value);
+          });
+        } else {
+          if (typeof values === "string") searchParams.append(key, values);
+        }
+      });
+
+      navigate(`?${searchParams.toString()}`);
+    },
+    [searchParams]
+  );
+
+  const resetFilters = useCallback(() => {
     navigate("");
-  };
+  }, []);
 
   return { filters, onFiltersChange, resetFilters };
 };

@@ -1,9 +1,7 @@
 import { PageHeader } from "antd";
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-import { errorActions } from "@shared/api/error";
-import { useAppDispatch, useAppSelector } from "@app/index";
 import {
   ClubAddressEditForm,
   fetchClub,
@@ -15,14 +13,18 @@ import {
   fetchstreetTypes,
   useStreetTypesSelect
 } from "@entities/streetTypesSlice";
+import { errorActions } from "@shared/api/error";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
 
 import PageNotFound from "../404/PageNotFound";
 
-import { clubRoutes } from "./Routes";
+import { clubRoutesPaths } from "./routesPaths";
 
 const ClubAddressEdit = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
+  const { navigateBack } = useNavigateBack();
+  const onBack = () => navigateBack(clubRoutesPaths.club.URL(id));
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -45,15 +47,15 @@ const ClubAddressEdit = () => {
   return (
     <>
       <PageHeader
-        title={`${clubRoutes.club_address_edit.title}: ${clubAddress.street}`}
-        onBack={() => navigate(clubRoutes.club.URL(id))}
+        title={`${clubRoutesPaths.club_address_edit.title}: ${clubAddress.street}`}
+        onBack={onBack}
       />
       <ClubAddressEditForm
         clubAddress={clubAddress}
         loading={loading === "loading"}
         clubId={id}
         streetTypes={streetTypes}
-        onCancel={() => navigate(clubRoutes.club.URL(id))}
+        onCancel={onBack}
       />
     </>
   );

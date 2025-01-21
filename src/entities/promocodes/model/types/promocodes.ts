@@ -1,3 +1,5 @@
+import type { IPagination } from "@shared/models/slice";
+
 export type PromocodeDiscountType = "percent" | "absolute";
 
 export interface IPromocodeListItem {
@@ -35,6 +37,7 @@ export interface IPromocodeDetail {
 export interface IPromocodeListResponse {
   promocodes: {
     items: IPromocodeListItem[];
+    pagination: IPagination;
   };
 }
 

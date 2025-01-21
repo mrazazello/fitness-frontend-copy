@@ -1,11 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios, { AxiosError, AxiosRequestConfig } from "axios";
+import type { AxiosRequestConfig } from "axios";
+import axios, { AxiosError } from "axios";
 
-import { IPaginationParams } from "@shared/models/slice";
+import type { IThunkConfig } from "@shared/api/error/model/types/error";
 import { defaultPageSize } from "@shared/constants/params";
-import { IThunkConfig } from "@app/index";
+import type { IPaginationParams } from "@shared/models/slice";
 
-import { IOrdersResponse } from "../types/orders";
+import type { IOrdersResponse } from "../types/orders";
 
 export const fetchOrders = createAsyncThunk<
   IOrdersResponse,

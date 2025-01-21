@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import { useAppDispatch, useAppSelector } from "@app/index";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
 
 import { getProductsSelect } from "../model/selectors/productsSelectors";
 import { fetchAllProducts } from "../model/service/fetchAllProducts";

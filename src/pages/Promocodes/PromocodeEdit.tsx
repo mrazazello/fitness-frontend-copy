@@ -1,29 +1,35 @@
 import { PageHeader } from "antd";
 import dayjs from "dayjs";
 import { useCallback, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-import { errorActions } from "@shared/api/error";
-import { defaultBackendDateFormat } from "@shared/constants/params";
-import { useAppDispatch, useAppSelector } from "@app/index";
+import { useProductsAllSelectItems } from "@entities/products";
+import type { IPromocodeEditValues } from "@entities/promocodes";
 import {
-  IPromocodeEditValues,
   PromocodeEditForm,
   editPromocode,
   fetchPromocode,
   getPromocodesDetail,
-  getPromocodesLoading
+  getPromocodesLoading,
+  promocodesActions
 } from "@entities/promocodes";
-import { useProductsAllSelectItems } from "@entities/products";
+import { errorActions } from "@shared/api/error";
+import { defaultBackendDateFormat } from "@shared/constants/params";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
 
 import PageNotFound from "../404/PageNotFound";
-
-import { promocodesRoutes } from "./Routes";
+import { promocodesRoutesPaths } from "./routesPaths";
 
 const ProductEdit = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { navigateBack } = useNavigateBack();
+
+  const onBack = useCallback(() => {
+    dispatch(promocodesActions.resetDetail());
+    navigateBack(promocodesRoutesPaths.promocodes.URL());
+  }, []);
 
   useEffect(() => {
     void dispatch(errorActions.resetErrors());
@@ -58,15 +64,15 @@ const ProductEdit = () => {
   return (
     <>
       <PageHeader
-        title={`${promocodesRoutes.promocode_edit.title}: ${promocodeDetail.secret}`}
-        onBack={() => navigate(promocodesRoutes.promocodes.URL())}
+        title={`${promocodesRoutesPaths.promocode_edit.title}: ${promocodeDetail.secret}`}
+        onBack={onBack}
       />
       <PromocodeEditForm
         promocodeDetail={promocodeDetail}
         loading={loading === "loading"}
         allProductsOptions={allProductsOptions}
         onSave={handleProductEdit}
-        onCancel={() => navigate(promocodesRoutes.promocodes.URL())}
+        onCancel={onBack}
       />
     </>
   );

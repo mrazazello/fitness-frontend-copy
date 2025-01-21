@@ -2,10 +2,10 @@ import { Form, Input, Modal } from "antd";
 import { useEffect } from "react";
 
 import { ShowErrorMessages } from "@shared/api/error";
-import { useAppDispatch } from "@app/index";
+import { useAppDispatch } from "@shared/hooks/useAppStore";
 
-import { IClubAreasItem } from "../model/types/clubAreas";
 import { editArea } from "../model/service/editArea";
+import type { IClubAreasItem } from "../model/types/clubAreas";
 
 interface IAddModalProps {
   isEditRoom: IClubAreasItem | null;

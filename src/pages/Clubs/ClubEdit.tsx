@@ -1,6 +1,6 @@
 import { PageHeader } from "antd";
-import { useNavigate, useParams } from "react-router-dom";
 import { useCallback, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 import {
   ClubEditForm,
@@ -9,22 +9,25 @@ import {
   getClubDetail,
   getClubLoading
 } from "@entities/club";
-import { useAppDispatch, useAppSelector } from "@app/index";
+import type { IClubEditValues } from "@entities/club/model/types/clubs";
 import { errorActions } from "@shared/api/error";
-import { IClubEditValues } from "@entities/club/model/types/clubs";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
 
 import PageNotFound from "../404/PageNotFound";
 
-import { clubRoutes } from "./Routes";
+import { clubRoutesPaths } from "./routesPaths";
 
 const ClubEditPage = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
+  const { navigateBack } = useNavigateBack();
   const dispatch = useAppDispatch();
 
+  const onBack = () => navigateBack(clubRoutesPaths.club.URL(id));
+
   useEffect(() => {
-    void dispatch(errorActions.resetErrors());
-    id && void dispatch(fetchClub(id));
+    dispatch(errorActions.resetErrors());
+    if (id) dispatch(fetchClub(id));
   }, [id]);
 
   const clubDetail = useAppSelector(getClubDetail);
@@ -32,7 +35,7 @@ const ClubEditPage = () => {
 
   const handleUpdateClub = useCallback(
     (values: IClubEditValues) => {
-      id && void dispatch(editClub({ code: id, ...values }));
+      if (id) dispatch(editClub({ code: id, ...values }));
     },
     [id]
   );
@@ -41,15 +44,12 @@ const ClubEditPage = () => {
 
   return (
     <>
-      <PageHeader
-        title={clubRoutes.club_edit.title}
-        onBack={() => navigate(clubRoutes.club.URL(id))}
-      />
+      <PageHeader title={clubRoutesPaths.club_edit.title} onBack={onBack} />
       <ClubEditForm
         clubDetail={clubDetail}
         loading={loading === "loading"}
         onSave={handleUpdateClub}
-        onCancel={() => navigate(clubRoutes.club.URL(id))}
+        onCancel={onBack}
       />
     </>
   );

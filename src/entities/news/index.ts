@@ -1,5 +1,6 @@
-import { INewsListItem, INewsDetail } from "./model/types/news";
-import { newsReducer, newsActions, INewsSchema } from "./model/slice/newsSlice";
+import type { INewsListItem, INewsDetail } from "./model/types/news";
+import type { INewsSchema } from "./model/slice/newsSlice";
+import { newsReducer, newsActions } from "./model/slice/newsSlice";
 import {
   newsSelectors,
   getNewsLoading,

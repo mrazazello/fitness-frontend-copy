@@ -1,4 +1,4 @@
-import { RootState } from "@app/index";
+import type { RootState } from "@app/index";
 
 import { clubsAdapter } from "../slice/clubsSlice";
 

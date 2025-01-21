@@ -1,10 +1,10 @@
 import { Button, Card, Space, Table, Typography } from "antd";
+import type { ColumnProps } from "antd/lib/table";
 import { useEffect, useState } from "react";
-import { ColumnProps } from "antd/lib/table";
 
-import { useAppDispatch, useAppSelector } from "@app/index";
-import { EditEntityBtn } from "@shared/ui/EditEntityBtn/EditEntityBtn";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
 import { DeleteEntityBtn } from "@shared/ui/DeleteEntityBtn/DeleteEntityBtn";
+import { EditEntityBtn } from "@shared/ui/EditEntityBtn/EditEntityBtn";
 import { addReactKeyByProperty } from "@shared/utils/addReactKey";
 
 import {
@@ -13,7 +13,7 @@ import {
 } from "../model/selectors/clubAreasSelectors";
 import { deleteArea } from "../model/service/deleteArea";
 import { fetchClubAreas } from "../model/service/fetchClubAreas";
-import { IClubAreasItem } from "../model/types/clubAreas";
+import type { IClubAreasItem } from "../model/types/clubAreas";
 
 import ClubAreaAddModal from "./ClubAreaAddModal";
 import ClubAreaEditModal from "./ClubAreaEditModal";
@@ -45,7 +45,7 @@ export const ClubAreasList = (props: TProps) => {
 
   const handleTurnOnEditRoomMode = (code: string) => {
     const editedArea = clubAreas?.find((item) => item.code === code);
-    editedArea && setEditRoom(editedArea);
+    if (editedArea) setEditRoom(editedArea);
   };
 
   const columnsRooms: ColumnProps<IClubAreasItem>[] = [

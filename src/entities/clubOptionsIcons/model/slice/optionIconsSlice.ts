@@ -1,9 +1,9 @@
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 
-import { IEntitiesState } from "@shared/models/slice";
+import type { IEntitiesState } from "@shared/models/slice";
 
-import { IIconItem } from "../types/options";
 import { fetchOptionIcons } from "../service/fetchOptionIcons";
+import type { IIconItem } from "../types/options";
 
 export interface IOptionIconsSchema extends IEntitiesState {
   entities?: IIconItem[];

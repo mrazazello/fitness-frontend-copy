@@ -1,38 +1,26 @@
 import { InfoCircleOutlined } from "@ant-design/icons";
+import { lazy } from "react";
 
-import { IRoutes } from "@shared/models/routes";
+import type { IRoutes } from "@shared/models/routes";
 
-import { NewsAsync } from "./News.async";
-import { NewsCreateAsync } from "./NewsCreate.async";
-import { NewsEditAsync } from "./NewsEdit.async";
+const NewsAsync = lazy(() => import("./News"));
+const NewsCreateAsync = lazy(() => import("./NewsCreate"));
+const NewsEditAsync = lazy(() => import("./NewsEdit"));
 
-export enum NewsSlugsEnum {
-  news = "news",
-  news_create = "news_create",
-  news_edit = "news_edit"
-}
+import { NewsSlugsEnum, newsRoutesPaths } from "./routesPaths";
 
 export const newsRoutes: IRoutes<NewsSlugsEnum> = {
   news: {
-    URL: () => "/news",
+    ...newsRoutesPaths.news,
     element: <NewsAsync />,
-    title: "Новости",
-    public: false,
-    mainMenu: true,
     icon: <InfoCircleOutlined />
   },
   news_create: {
-    URL: () => "/news/create",
-    element: <NewsCreateAsync />,
-    title: "Добавление новости",
-    public: false,
-    mainMenu: false
+    ...newsRoutesPaths.news_create,
+    element: <NewsCreateAsync />
   },
   news_edit: {
-    URL: (id = ":id") => `/news/${id}/edit`,
-    element: <NewsEditAsync />,
-    title: "Редактирование новости",
-    public: false,
-    mainMenu: false
+    ...newsRoutesPaths.news_edit,
+    element: <NewsEditAsync />
   }
 };

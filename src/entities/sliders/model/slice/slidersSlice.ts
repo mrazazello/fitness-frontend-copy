@@ -1,14 +1,14 @@
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 
-import { IEntitiesState } from "@shared/models/slice";
+import type { IEntitiesState } from "@shared/models/slice";
 
-import { ISliderFormDetail, ISliderListItem } from "../types/sliders";
-import { fetchSliders } from "../service/fetchSliders";
-import { fetchSlider } from "../service/fetchSlider";
 import { createSlider } from "../service/createSlider";
-import { editSlider } from "../service/editSlider";
 import { deleteSlider } from "../service/deleteSlider";
+import { editSlider } from "../service/editSlider";
+import { fetchSlider } from "../service/fetchSlider";
+import { fetchSliders } from "../service/fetchSliders";
 import { toggleSlider } from "../service/toggleSlider";
+import type { ISliderFormDetail, ISliderListItem } from "../types/sliders";
 
 export interface ISlidersSchema extends IEntitiesState {
   entities?: ISliderListItem[];
@@ -26,7 +26,11 @@ export const slidersAdapter = createEntityAdapter({
 const slidersSlice = createSlice({
   name: "sliders",
   initialState: slidersAdapter.getInitialState(initialState),
-  reducers: {},
+  reducers: {
+    resetDetail: (state) => {
+      state.sliderDetail = undefined;
+    }
+  },
   extraReducers: (builder) => {
     builder
       // fetch sliders

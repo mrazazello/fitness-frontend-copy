@@ -1,4 +1,4 @@
-import { IPagination } from "@shared/models/slice";
+import type { IPagination } from "@shared/models/slice";
 
 export interface IProductListItem {
   code: string;
@@ -33,12 +33,16 @@ export interface IProductDetail {
     contactPhone: string;
   }[];
   description: string;
+  dayPromo: boolean;
 }
 
 export interface IProductListResponse {
   products: {
     items: IProductListItem[];
     pagination?: IPagination;
+    filter: {
+      clubCode: string[];
+    };
   };
 }
 
@@ -60,6 +64,7 @@ export interface IProductEditValues {
   clubCodes: string[];
   description: string;
   promocode: boolean;
+  dayPromo: boolean;
 }
 
 export type fetchProductsParams = {

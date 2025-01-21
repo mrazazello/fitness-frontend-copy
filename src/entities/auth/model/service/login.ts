@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 
-import { IThunkConfig } from "@app/index";
-import { uninterceptedAxios } from "@shared/api/axios/axios";
+import type { IThunkConfig } from "@shared/api/error/model/types/error";
+import { uninterceptedAxios } from "@shared/api/axios/unintercepted";
 
-import { ILoginResponse, IUserRequest } from "../types/auth";
+import type { ILoginResponse, IUserRequest } from "../types/auth";
 
 export const login = createAsyncThunk<
   ILoginResponse,

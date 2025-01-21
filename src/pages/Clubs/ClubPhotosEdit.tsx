@@ -1,9 +1,7 @@
 import { PageHeader } from "antd";
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-import { errorActions } from "@shared/api/error";
-import { useAppDispatch, useAppSelector } from "@app/index";
 import {
   ClubPhotosEditForm,
   clubActions,
@@ -13,15 +11,19 @@ import {
   getClubLoading,
   getClubPhotos
 } from "@entities/club";
+import { errorActions } from "@shared/api/error";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
 
 import PageNotFound from "../404/PageNotFound";
 
-import { clubRoutes } from "./Routes";
+import { clubRoutesPaths } from "./routesPaths";
 
 const ClubPhotoEdit = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { navigateBack } = useNavigateBack();
+  const onBack = () => navigateBack(clubRoutesPaths.club.URL(id));
 
   useEffect(() => {
     void dispatch(errorActions.resetErrors());
@@ -49,14 +51,14 @@ const ClubPhotoEdit = () => {
   return (
     <>
       <PageHeader
-        title={`${clubRoutes.club_photos_edit.title}: ${clubDetail.clubName}`}
-        onBack={() => navigate(clubRoutes.club.URL(id))}
+        title={`${clubRoutesPaths.club_photos_edit.title}: ${clubDetail.clubName}`}
+        onBack={onBack}
       />
       <ClubPhotosEditForm
         clubId={id}
         clubPhotos={clubPhotos}
         loading={loading === "loading"}
-        onCancel={() => navigate(clubRoutes.club.URL(id))}
+        onCancel={onBack}
       />
     </>
   );

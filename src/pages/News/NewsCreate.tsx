@@ -1,19 +1,20 @@
 import { PageHeader } from "antd";
 import dayjs from "dayjs";
 import { useCallback, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
-import { errorActions } from "@shared/api/error";
-import { useAppDispatch } from "@app/index";
-import { convertIFileResponseToPhotoListItem } from "@shared/models/files";
-import { INewsCreateValues } from "@entities/news/model/types/news";
 import { NewsEditForm, createNews } from "@entities/news";
+import type { INewsCreateValues } from "@entities/news/model/types/news";
+import { errorActions } from "@shared/api/error";
+import { useAppDispatch } from "@shared/hooks/useAppStore";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
+import { convertIFileResponseToPhotoListItem } from "@shared/models/files";
 
-import { newsRoutes } from "./Routes";
+import { newsRoutesPaths } from "./routesPaths";
 
 const NewsCreate = () => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { navigateBack } = useNavigateBack();
+  const onBack = () => navigateBack(newsRoutesPaths.news.URL());
 
   useEffect(() => {
     void dispatch(errorActions.resetErrors());
@@ -30,21 +31,14 @@ const NewsCreate = () => {
         photo: convertIFileResponseToPhotoListItem(values.photo[0].response)
       })
     ).then((res) => {
-      if (res.meta.requestStatus === "fulfilled")
-        navigate(newsRoutes.news.URL());
+      if (res.meta.requestStatus === "fulfilled") onBack();
     });
   }, []);
 
   return (
     <>
-      <PageHeader
-        title={newsRoutes.news_create.title}
-        onBack={() => navigate(newsRoutes.news.URL())}
-      />
-      <NewsEditForm
-        onSave={handleNewsCreate}
-        onCancel={() => navigate(newsRoutes.news.URL())}
-      />
+      <PageHeader title={newsRoutesPaths.news_create.title} onBack={onBack} />
+      <NewsEditForm onSave={handleNewsCreate} onCancel={onBack} />
     </>
   );
 };

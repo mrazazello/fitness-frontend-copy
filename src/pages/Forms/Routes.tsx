@@ -1,29 +1,21 @@
 import { CommentOutlined } from "@ant-design/icons";
+import { lazy } from "react";
 
-import { IRoutes } from "@shared/models/routes";
+import type { IRoutes } from "@shared/models/routes";
 
-import { FormQueriesAsync } from "./FormQueries.async";
-import { FormQueriesPageAsync } from "./FormQueriesPage.async";
+const FormQueriesAsync = lazy(() => import("./FormQueries"));
+const FormQueriesPageAsync = lazy(() => import("./FormQueriesPage"));
 
-export enum FormQueriesSlugsEnum {
-  form_queries = "form_queries",
-  form_querie = "form_querie"
-}
+import { FormQueriesSlugsEnum, formsRoutesPaths } from "./routesPaths";
 
 export const formsRoutes: IRoutes<FormQueriesSlugsEnum> = {
   form_queries: {
-    URL: () => `/form-queries`,
+    ...formsRoutesPaths.form_queries,
     element: <FormQueriesAsync />,
-    title: "Обратная связь",
-    public: false,
-    mainMenu: true,
     icon: <CommentOutlined />
   },
   form_querie: {
-    URL: (id = ":id") => `/form-queries/${id}`,
-    element: <FormQueriesPageAsync />,
-    title: "Обратная связь",
-    public: false,
-    mainMenu: false
+    ...formsRoutesPaths.form_querie,
+    element: <FormQueriesPageAsync />
   }
 };

@@ -1,7 +1,7 @@
 import { Descriptions, Tag } from "antd";
 import dayjs from "dayjs";
 
-import { IFormQuerieDetail } from "../model/types/formQueries";
+import type { IFormQuerieDetail } from "../model/types/formQueries";
 
 type TProps = {
   formDetail?: IFormQuerieDetail;

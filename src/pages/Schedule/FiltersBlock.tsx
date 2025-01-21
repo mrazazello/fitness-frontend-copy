@@ -1,31 +1,33 @@
-import dayjs from "dayjs";
 import { Button, Select, Space } from "antd";
+import dayjs from "dayjs";
 import { useEffect } from "react";
 
-import { useAppDispatch, useAppSelector } from "@app/index";
-import dayOfWeek from "@shared/constants/daysOfWeek";
 import { coachsSelectors, fetchCoachs } from "@entities/coachs";
 import { fetchProgramms, programmsSelectors } from "@entities/programms";
 import { getScheduleFilters } from "@entities/schedule";
+import dayOfWeek from "@shared/constants/daysOfWeek";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
 import useCustomFilters from "@shared/hooks/useCustomFilters";
-import getFullName from "@shared/utils/getFullName";
-import { useClubsSelectItems } from "@entities/club";
 import { AppDatePicker } from "@shared/ui/AppDatePicker/AppDatePicker";
+import getFullName from "@shared/utils/getFullName";
+import { fetchAllAreas, useAreasByClub } from "@entities/clubAreas";
 
 export const FiltersBlock = () => {
   const dispatch = useAppDispatch();
   const { filters, onFiltersChange, resetFilters } = useCustomFilters();
 
   useEffect(() => {
-    void dispatch(fetchCoachs());
-    void dispatch(fetchProgramms());
+    dispatch(fetchCoachs());
+    dispatch(fetchProgramms());
+    dispatch(fetchAllAreas());
   }, []);
 
   const storeFilters = useAppSelector(getScheduleFilters);
   const programmsFilter = useAppSelector(programmsSelectors.selectAll).map(
     (el) => ({ label: el.name, value: el.code })
   );
-  const { clubsSelectOptions } = useClubsSelectItems();
+  const areasGoupped = useAreasByClub();
+
   const coachsFilter =
     useAppSelector(coachsSelectors.selectAll)
       .map((item) => ({
@@ -85,18 +87,18 @@ export const FiltersBlock = () => {
         value={storeFilters?.programCode || undefined}
       />
       <Select
-        options={clubsSelectOptions}
+        options={areasGoupped}
         style={{ width: 160 }}
         allowClear
-        placeholder="Клуб"
+        placeholder="Зал и Клуб"
         maxTagCount="responsive"
         onChange={(value) =>
           onFiltersChange({
             ...filters,
-            club: value
+            area: value
           })
         }
-        value={storeFilters?.clubCode || undefined}
+        value={storeFilters?.areaCode || undefined}
       />
       <Select
         options={coachsFilter}

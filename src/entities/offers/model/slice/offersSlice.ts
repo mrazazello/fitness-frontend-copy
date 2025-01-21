@@ -1,13 +1,13 @@
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 
-import { IEntitiesState } from "@shared/models/slice";
+import type { IEntitiesState } from "@shared/models/slice";
 
-import { IOfferDetail, IOfferListItem } from "../types/offers";
-import { fetchOffers } from "../service/fetchOffers";
-import { fetchOffer } from "../service/fetchOffer";
 import { createOffer } from "../service/createOffer";
-import { editOffer } from "../service/editOffer";
 import { deleteOffer } from "../service/deleteOffer";
+import { editOffer } from "../service/editOffer";
+import { fetchOffer } from "../service/fetchOffer";
+import { fetchOffers } from "../service/fetchOffers";
+import type { IOfferDetail, IOfferListItem } from "../types/offers";
 
 export interface IOffersSchema extends IEntitiesState {
   entities?: IOfferListItem[];
@@ -25,7 +25,11 @@ export const offersAdapter = createEntityAdapter({
 const offersSlice = createSlice({
   name: "offers",
   initialState: offersAdapter.getInitialState(initialState),
-  reducers: {},
+  reducers: {
+    resetDetail: (state) => {
+      state.offerDetail = undefined;
+    }
+  },
   extraReducers: (builder) => {
     builder
       // fetch offers

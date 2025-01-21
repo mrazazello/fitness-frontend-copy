@@ -1,9 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
-import { IThunkConfig } from "@app/index";
+import type { IThunkConfig } from "@shared/api/error/model/types/error";
 
-import { IFormQuerieDetailResponse } from "../types/formQueries";
+import type { IFormQuerieDetailResponse } from "../types/formQueries";
 
 export const fetchformQuerie = createAsyncThunk<
   IFormQuerieDetailResponse,

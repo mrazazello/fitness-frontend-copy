@@ -1,32 +1,36 @@
 import { PageHeader } from "antd";
 import { useCallback, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-import { errorActions } from "@shared/api/error";
-import { useAppDispatch, useAppSelector } from "@app/index";
+import type { IDocEditValues } from "@entities/docs";
 import {
   DocEditForm,
-  IDocEditValues,
   docsActions,
   editDoc,
   fetchDoc,
   getDocDetail,
   getDocsLoading
 } from "@entities/docs";
+import { errorActions } from "@shared/api/error";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
 
 import PageNotFound from "../404/PageNotFound";
-
-import { docsRoutes } from "./Routes";
+import { docsRoutesPaths } from "./routesPaths";
 
 const DocEdit = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { navigateBack } = useNavigateBack();
+
+  const onBack = useCallback(() => {
+    dispatch(docsActions.resetDocDetail());
+    navigateBack(docsRoutesPaths.docs.URL());
+  }, []);
 
   useEffect(() => {
     void dispatch(errorActions.resetErrors());
     if (id) {
-      void dispatch(docsActions.resetDocDetail());
       void dispatch(fetchDoc(id));
     }
   }, [id]);
@@ -39,8 +43,8 @@ const DocEdit = () => {
       if (docDetail) {
         void dispatch(
           editDoc({
-            code: docDetail.code,
-            ...values
+            ...values,
+            code: docDetail.code
           })
         );
       }
@@ -55,14 +59,14 @@ const DocEdit = () => {
   return docDetail ? (
     <>
       <PageHeader
-        title={`${docsRoutes.doc_edit.title}: ${docDetail.name}`}
-        onBack={() => navigate(docsRoutes.docs.URL())}
+        title={`${docsRoutesPaths.doc_edit.title}: ${docDetail.name}`}
+        onBack={onBack}
       />
       <DocEditForm
         docDetail={docDetail}
         loading={loading === "loading"}
         onSave={handleDocEdit}
-        onCancel={() => navigate(docsRoutes.docs.URL())}
+        onCancel={onBack}
       />
     </>
   ) : null;

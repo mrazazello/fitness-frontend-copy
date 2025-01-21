@@ -1,6 +1,6 @@
 import { Descriptions, Typography } from "antd";
 
-import { IClubAddress, IClubDetail } from "../model/types/clubs";
+import type { IClubAddress, IClubDetail } from "../model/types/clubs";
 
 type TProps = {
   clubDetail?: IClubDetail;

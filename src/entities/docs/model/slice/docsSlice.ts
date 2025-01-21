@@ -1,13 +1,13 @@
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 
-import { IEntitiesState } from "@shared/models/slice";
+import type { IEntitiesState } from "@shared/models/slice";
 
-import { IDocDetail, IDocsListItem } from "../types/docs";
-import { fetchDocs } from "../service/fetchDocs";
-import { fetchDoc } from "../service/fetchDoc";
 import { createDoc } from "../service/createDoc";
-import { editDoc } from "../service/editDoc";
 import { deleteDoc } from "../service/deleteDoc";
+import { editDoc } from "../service/editDoc";
+import { fetchDoc } from "../service/fetchDoc";
+import { fetchDocs } from "../service/fetchDocs";
+import type { IDocDetail, IDocsListItem } from "../types/docs";
 
 export interface IDocsSchema extends IEntitiesState {
   entities?: IDocsListItem[];

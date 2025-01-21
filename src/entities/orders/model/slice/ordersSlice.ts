@@ -1,10 +1,10 @@
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 
-import { IEntitiesState } from "@shared/models/slice";
+import type { IEntitiesState } from "@shared/models/slice";
 
-import { IOrderDetail, IOrdersListItem } from "../types/orders";
-import { fetchOrders } from "../service/fetchOrders";
 import { fetchOrder } from "../service/fetchOrder";
+import { fetchOrders } from "../service/fetchOrders";
+import type { IOrderDetail, IOrdersListItem } from "../types/orders";
 
 export interface IOrdersSchema extends IEntitiesState {
   entities?: IOrdersListItem[];

@@ -1,26 +1,18 @@
-import { IRoutes } from "@shared/models/routes";
-import { LogoutAsync } from "@pages/Authorize/Logout.async";
+import { lazy } from "react";
 
-import { AuthorizationAsync } from "./Authorization.async";
+import type { IRoutes } from "@shared/models/routes";
 
-export enum AuthorizeSlugsEnum {
-  login = "login",
-  logout = "logout"
-}
+const AuthorizationAsync = lazy(() => import("./Authorization"));
+const LogoutAsync = lazy(() => import("./Logout"));
+import { AuthorizeSlugsEnum, authorizeRoutesPaths } from "./routesPaths";
 
 export const authorizeRoutes: IRoutes<AuthorizeSlugsEnum> = {
   login: {
-    URL: () => "/admin",
-    element: <AuthorizationAsync />,
-    title: "Авторизация",
-    public: true,
-    mainMenu: false
+    ...authorizeRoutesPaths.login,
+    element: <AuthorizationAsync />
   },
   logout: {
-    URL: () => "/logout",
-    element: <LogoutAsync />,
-    title: "Выход",
-    public: false,
-    mainMenu: false
+    ...authorizeRoutesPaths.logout,
+    element: <LogoutAsync />
   }
 };

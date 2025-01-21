@@ -1,15 +1,12 @@
-import {
+import type {
   IProductListItem,
   IProductDetail,
   fetchProductsParams,
   IProductEditValues,
   IProductEditRequestArgs
 } from "./model/types/products";
-import {
-  productReducer,
-  productActions,
-  IProductsSchema
-} from "./model/slice/productsSlice";
+import type { IProductsSchema } from "./model/slice/productsSlice";
+import { productReducer, productActions } from "./model/slice/productsSlice";
 import {
   productsSelectors,
   getProductsLoading,

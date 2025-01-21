@@ -1,43 +1,49 @@
 import { Button, Card, PageHeader } from "antd";
 import { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
-import { ShowErrorMessages, errorActions } from "@shared/api/error";
-import { useAppDispatch, useAppSelector } from "@app/index";
-import { addReactKeyByProperty } from "@shared/utils/addReactKey";
+import type { IPromocodeListItem } from "@entities/promocodes";
 import {
-  IPromocodeListItem,
   PromocodesList,
   fetchPromocodes,
   getPromocodesLoading,
+  getPromocodesPagination,
   promocodesSelectors
 } from "@entities/promocodes";
+import { ShowErrorMessages, errorActions } from "@shared/api/error";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
+import { addReactKeyByProperty } from "@shared/utils/addReactKey";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
+import useTableFilters from "@shared/hooks/useTableFilters";
 
-import { promocodesRoutes } from "./Routes";
+import { promocodesRoutesPaths } from "./routesPaths";
 
 const Promocodes = () => {
-  const navigate = useNavigate();
+  const { navigateSave } = useNavigateBack();
   const dispatch = useAppDispatch();
+  const { onPageChange } = useTableFilters();
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     void dispatch(errorActions.resetErrors());
-    void dispatch(fetchPromocodes());
-  }, []);
+    void dispatch(fetchPromocodes(Number(searchParams.get("page")) || 1));
+  }, [searchParams]);
 
   const loading = useAppSelector(getPromocodesLoading);
   const promocodes = addReactKeyByProperty<IPromocodeListItem>(
     useAppSelector(promocodesSelectors.selectAll),
     "code"
   );
+  const pagination = useAppSelector(getPromocodesPagination);
 
   return (
     <>
       <PageHeader
         title="Промокоды"
         extra={
-          <Link to={promocodesRoutes.promocode_create.URL()}>
+          <Link to={promocodesRoutesPaths.promocode_create.URL()}>
             <Button type="primary">
-              {promocodesRoutes.promocode_create.title}
+              {promocodesRoutesPaths.promocode_create.title}
             </Button>
           </Link>
         }
@@ -47,9 +53,11 @@ const Promocodes = () => {
         <PromocodesList
           promocodes={promocodes}
           loading={loading === "loading"}
+          pagination={pagination}
           onEdit={(code: string) =>
-            navigate(promocodesRoutes.promocode_edit.URL(code))
+            navigateSave(promocodesRoutesPaths.promocode_edit.URL(code))
           }
+          onPageChange={onPageChange}
         />
       </Card>
     </>

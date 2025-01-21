@@ -1,8 +1,8 @@
-import { UploadFile } from "antd";
+import type { UploadFile } from "antd";
 
-import { ICreatedFile } from "@shared/models/files";
-import { IPhotoListItem } from "@shared/models/photo";
-import { IPagination } from "@shared/models/slice";
+import type { ICreatedFile } from "@shared/models/files";
+import type { IPhotoListItem } from "@shared/models/photo";
+import type { IPagination } from "@shared/models/slice";
 
 export interface INewsListItem {
   code: string;

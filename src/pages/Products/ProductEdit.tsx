@@ -1,27 +1,34 @@
 import { PageHeader } from "antd";
 import { useCallback, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-import { errorActions } from "@shared/api/error";
-import { useAppDispatch, useAppSelector } from "@app/index";
 import { clubsSelectors, useClubsSelectItems } from "@entities/club";
+import type { IProductEditValues } from "@entities/products";
 import {
-  IProductEditValues,
   ProductEditForm,
   editProduct,
   fetchProduct,
   getProductDetail,
-  getProductsLoading
+  getProductsLoading,
+  productActions
 } from "@entities/products";
+import { errorActions } from "@shared/api/error";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
 
 import PageNotFound from "../404/PageNotFound";
 
-import { productsRoutes } from "./Routes";
+import { productsRoutesPaths } from "./routesPaths";
 
 const PromocodeEdit = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { navigateBack } = useNavigateBack();
+
+  const onBack = useCallback(() => {
+    dispatch(productActions.resetDetail());
+    navigateBack(productsRoutesPaths.products.URL());
+  }, []);
 
   useEffect(() => {
     void dispatch(errorActions.resetErrors());
@@ -39,6 +46,7 @@ const PromocodeEdit = () => {
       const filteredClub = clubs.filter((item) =>
         values.clubCodes.includes(item.code)
       );
+      console.log("values: ", values);
       if (productDetail && filteredClub) {
         void dispatch(
           editProduct({
@@ -60,14 +68,14 @@ const PromocodeEdit = () => {
     <>
       <PageHeader
         title={`Редактирование акции: ${productDetail.title}`}
-        onBack={() => navigate(productsRoutes.products.URL())}
+        onBack={onBack}
       />
       <ProductEditForm
         productDetail={productDetail}
         loading={loading === "loading"}
         clubsSelectOptions={clubsSelectOptions}
         onSave={handleProductEdit}
-        onCancel={() => navigate(productsRoutes.products.URL())}
+        onCancel={onBack}
       />
     </>
   );

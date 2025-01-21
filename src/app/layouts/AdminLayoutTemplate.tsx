@@ -3,11 +3,12 @@ import { Button, Drawer, Dropdown, Layout, Menu } from "antd";
 import { useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 
-import menuItems, { mobileMenuItems } from "@shared/constants/mainMenu";
-import Logo from "@shared/ui/Logo/Logo";
 import { useLogout } from "@entities/auth";
 import { ShowToastMessage } from "@shared/api/error";
+import menuItems, { mobileMenuItems } from "@shared/constants/mainMenu";
+import Logo from "@shared/ui/Logo/Logo";
 
+import { authorizeRoutesPaths } from "@pages/Authorize/routesPaths";
 import "antd/dist/antd.min.css";
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -17,7 +18,13 @@ export const AdminLayoutTemplate = () => {
   const location = useLocation();
   const locationSection = `/${location.pathname.split("/")[1]}`;
 
-  const items = [{ label: "Выход", key: "item-1", onClick: () => logout() }];
+  const items = [
+    {
+      label: "Выход",
+      key: "item-1",
+      onClick: () => logout(authorizeRoutesPaths.login.URL())
+    }
+  ];
 
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
 

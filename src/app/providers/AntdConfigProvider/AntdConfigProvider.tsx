@@ -1,10 +1,10 @@
 import { ConfigProvider } from "antd";
-import "dayjs/locale/ru";
 import locale from "antd/es/locale/ru_RU";
 import dayjs from "dayjs";
+import "dayjs/locale/ru";
 import localeData from "dayjs/plugin/localeData";
 import weekday from "dayjs/plugin/weekday";
-import { ReactElement } from "react";
+import type { ReactElement } from "react";
 
 dayjs.extend(weekday);
 dayjs.extend(localeData);

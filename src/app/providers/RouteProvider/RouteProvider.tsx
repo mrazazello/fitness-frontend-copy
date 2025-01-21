@@ -1,15 +1,15 @@
-import { BrowserRouter, useRoutes } from "react-router-dom";
 import { Suspense } from "react";
+import { BrowserRouter, useRoutes } from "react-router-dom";
 
 import Preloader from "@shared/ui/Preloader/Preloader";
 
 import { AdminLayoutTemplate } from "../../layouts/AdminLayoutTemplate";
 import { PublicLayoutTemplate } from "../../layouts/PublicLayoutTemplate";
 
-import frontendPaths from "./routes";
+import LoadDirectories from "./LoadDirectories";
 import PersistLogin from "./PersistLogin";
 import RequireAuth from "./RequareAuth";
-import LoadDirectories from "./LoadDirectories";
+import frontendPaths from "./routes";
 
 const publicPaths = Object.values(frontendPaths)
   .filter((item) => item.public === true)
@@ -56,7 +56,7 @@ const Routes = () => {
 export const RouteProvider = () => {
   return (
     <BrowserRouter>
-      <Suspense fallback={<Preloader />}>
+      <Suspense fallback={<Preloader message="Loading routes" />}>
         <Routes />
       </Suspense>
     </BrowserRouter>

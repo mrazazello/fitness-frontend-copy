@@ -1,4 +1,4 @@
-import { IOrdersListItem, IOrderDetail } from "./model/types/orders";
+import type { IOrdersListItem, IOrderDetail } from "./model/types/orders";
 import { ordersActions, orderReducer } from "./model/slice/ordersSlice";
 import {
   ordersSelectors,

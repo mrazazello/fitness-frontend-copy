@@ -1,10 +1,11 @@
-import {
+import type {
   IDocsListItem,
   IDocDetail,
   IDocEditValues,
   IDocEditRequest
 } from "./model/types/docs";
-import { docsActions, docsReducer, IDocsSchema } from "./model/slice/docsSlice";
+import type { IDocsSchema } from "./model/slice/docsSlice";
+import { docsActions, docsReducer } from "./model/slice/docsSlice";
 import { createDoc } from "./model/service/createDoc";
 import { deleteDoc } from "./model/service/deleteDoc";
 import { editDoc } from "./model/service/editDoc";

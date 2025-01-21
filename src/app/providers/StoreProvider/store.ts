@@ -1,10 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import {
-  TypedUseSelectorHook,
-  useDispatch,
-  useSelector,
-  useStore
-} from "react-redux";
+import { useStore } from "react-redux";
 
 import { scheduleReducer } from "@entities/schedule";
 import { coachReducer } from "@entities/coachs";
@@ -22,7 +17,6 @@ import { promocodesReducer } from "@entities/promocodes";
 import { streetTypesReducer } from "@entities/streetTypesSlice";
 import { authReducer } from "@entities/auth";
 import { errorReducer } from "@shared/api/error";
-import { IThunkCustomError } from "@shared/api/error/model/types/error";
 import { clubOptionsReducer } from "@entities/clubOptions";
 import { clubAreasReducer } from "@entities/clubAreas";
 
@@ -53,11 +47,4 @@ export type AppStore = typeof store;
 export type RootState = ReturnType<AppStore["getState"]>;
 export type AppDispatch = AppStore["dispatch"];
 
-export const useAppDispatch: () => AppDispatch = useDispatch;
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 export const useAppStore: () => AppStore = useStore;
-
-export interface IThunkConfig {
-  rejectValue: IThunkCustomError;
-  state: RootState;
-}

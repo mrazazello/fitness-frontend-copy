@@ -1,11 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
-import { PartialBy } from "@shared/models/slice";
-import { IThunkConfig } from "@app/index";
 import { errorActions } from "@shared/api/error";
+import type { IThunkConfig } from "@shared/api/error/model/types/error";
+import type { PartialBy } from "@shared/models/slice";
 
-import { IClubDetail, IClubEditRequest } from "../types/clubs";
+import type { IClubDetail, IClubEditRequest } from "../types/clubs";
 
 export const editClub = createAsyncThunk<
   IClubDetail,

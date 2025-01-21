@@ -1,5 +1,6 @@
-const BACKEND_FILES_URL =
-  import.meta.env.VITE_REACT_APP_BACKEND_FILES_URL || ""; // иначе ts считает что  | underfined
+import { envConfig } from "@shared/config/env";
+
+const BACKEND_FILES_URL = envConfig.BACKEND_FILES_URL || "";
 
 const backendPaths = {
   BACKEND_FILES_URL: (url: string) => `${BACKEND_FILES_URL}${url}`,

@@ -1,16 +1,17 @@
 import { Space, Table, Tag } from "antd";
-import { ColumnProps } from "antd/lib/table";
+import type { ColumnProps } from "antd/lib/table";
 
-import getFullName from "@shared/utils/getFullName";
-import { ImagePreview } from "@shared/ui/ImagePreview/ImagePreview";
-import { EditEntityBtn } from "@shared/ui/EditEntityBtn/EditEntityBtn";
-import { DeleteEntityBtn } from "@shared/ui/DeleteEntityBtn/DeleteEntityBtn";
-import { useAppDispatch } from "@app/index";
-import { IFilterOption } from "@shared/models/filterOptions";
+import { useAppDispatch } from "@shared/hooks/useAppStore";
 import useTableFilters from "@shared/hooks/useTableFilters";
+import type { IFilterOption } from "@shared/models/filterOptions";
+import { DeleteEntityBtn } from "@shared/ui/DeleteEntityBtn/DeleteEntityBtn";
+import { EditEntityBtn } from "@shared/ui/EditEntityBtn/EditEntityBtn";
+import { ImagePreview } from "@shared/ui/ImagePreview/ImagePreview";
+import getFullName from "@shared/utils/getFullName";
 
-import { ICoachListItem, coachTypes } from "../model/types/coachs";
 import { deleteCoach } from "../model/service/deleteCoach";
+import type { ICoachListItem } from "../model/types/coachs";
+import { coachTypes } from "../model/types/coachs";
 
 type TProps = {
   coachs: ICoachListItem[];

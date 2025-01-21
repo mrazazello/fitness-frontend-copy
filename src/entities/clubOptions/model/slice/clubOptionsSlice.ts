@@ -1,12 +1,12 @@
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 
-import { IEntitiesState } from "@shared/models/slice";
+import type { IEntitiesState } from "@shared/models/slice";
 
-import { IClubOptionsItem } from "../types/clubOptions";
-import { fetchClubOptions } from "../service/fetchClubOptions";
 import { createClubOption } from "../service/createClubOption";
-import { editOption } from "../service/editOption";
 import { deleteOption } from "../service/deleteOption";
+import { editOption } from "../service/editOption";
+import { fetchClubOptions } from "../service/fetchClubOptions";
+import type { IClubOptionsItem } from "../types/clubOptions";
 
 export interface IClubOptionsSchema extends IEntitiesState {
   options: IClubOptionsItem[] | null;

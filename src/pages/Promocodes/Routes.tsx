@@ -1,38 +1,27 @@
 import { BarcodeOutlined } from "@ant-design/icons";
+import { lazy } from "react";
 
-import { IRoutes } from "@shared/models/routes";
+import type { IRoutes } from "@shared/models/routes";
 
-import { PromocodesAsync } from "./Promocodes.async";
-import { PromocodeCreateAsync } from "./PromocodeCreate.async";
-import { PromocodeEditAsync } from "./PromocodeEdit.async";
+const PromocodeCreateAsync = lazy(() => import("./PromocodeCreate"));
+const PromocodeEditAsync = lazy(() => import("./PromocodeEdit"));
+const PromocodesAsync = lazy(() => import("./Promocodes"));
 
-export enum PromocodesSlugsEnum {
-  promocodes = "promocodes",
-  promocode_create = "promocode_create",
-  promocode_edit = "promocode_edit"
-}
+import type { PromocodesSlugsEnum } from "./routesPaths";
+import { promocodesRoutesPaths } from "./routesPaths";
 
 export const promocodesRoutes: IRoutes<PromocodesSlugsEnum> = {
   promocodes: {
-    URL: () => "/promocodes",
+    ...promocodesRoutesPaths.promocodes,
     element: <PromocodesAsync />,
-    title: "Промокоды",
-    public: false,
-    mainMenu: true,
     icon: <BarcodeOutlined />
   },
   promocode_create: {
-    URL: () => "/promocodes/create",
-    element: <PromocodeCreateAsync />,
-    title: "Добавление промокода",
-    public: false,
-    mainMenu: false
+    ...promocodesRoutesPaths.promocode_create,
+    element: <PromocodeCreateAsync />
   },
   promocode_edit: {
-    URL: (id = ":id") => `/promocodes/${id}/edit`,
-    element: <PromocodeEditAsync />,
-    title: "Редактирование промокода",
-    public: false,
-    mainMenu: false
+    ...promocodesRoutesPaths.promocode_edit,
+    element: <PromocodeEditAsync />
   }
 };

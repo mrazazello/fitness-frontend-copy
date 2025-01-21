@@ -1,10 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
+import type { IThunkConfig } from "@shared/api/error/model/types/error";
 import { defaultPageSize } from "@shared/constants/params";
-import { IThunkConfig } from "@app/index";
 
-import { IProductListResponse, fetchProductsParams } from "../types/products";
+import type {
+  IProductListResponse,
+  fetchProductsParams
+} from "../types/products";
 
 export const fetchProducts = createAsyncThunk<
   IProductListResponse,

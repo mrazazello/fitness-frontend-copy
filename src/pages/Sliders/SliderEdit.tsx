@@ -1,26 +1,32 @@
 import { PageHeader } from "antd";
 import { useCallback, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-import { errorActions } from "@shared/api/error";
-import { useAppDispatch, useAppSelector } from "@app/index";
+import type { ISliderEditValues } from "@entities/sliders";
 import {
-  ISliderEditValues,
   SliderEditForm,
   editSlider,
   fetchSlider,
   getSliderDetail,
-  getSlidersLoading
+  getSlidersLoading,
+  sliderActions
 } from "@entities/sliders";
+import { errorActions } from "@shared/api/error";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
 
 import PageNotFound from "../404/PageNotFound";
-
-import { slidersRoutes } from "./Routes";
+import { slidersRoutesPaths } from "./routesPaths";
 
 const SliderEdit = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { navigateBack } = useNavigateBack();
+
+  const onBack = useCallback(() => {
+    dispatch(sliderActions.resetDetail());
+    navigateBack(slidersRoutesPaths.sliders.URL());
+  }, []);
 
   useEffect(() => {
     void dispatch(errorActions.resetErrors());
@@ -51,14 +57,14 @@ const SliderEdit = () => {
   return (
     <>
       <PageHeader
-        title={`${slidersRoutes.slider_edit.title}: ${sliderDetail.title}`}
-        onBack={() => navigate(slidersRoutes.sliders.URL())}
+        title={`${slidersRoutesPaths.slider_edit.title}: ${sliderDetail.title}`}
+        onBack={onBack}
       />
       <SliderEditForm
         sliderDetail={sliderDetail}
         loading={loading === "loading"}
         onSave={handleSliderEdit}
-        onCancel={() => navigate(slidersRoutes.sliders.URL())}
+        onCancel={onBack}
       />
     </>
   );

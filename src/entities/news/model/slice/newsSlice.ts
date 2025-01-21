@@ -1,22 +1,21 @@
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 
-import { IEntitiesState } from "@shared/models/slice";
+import type { IEntitiesState } from "@shared/models/slice";
 
-import { INewsDetail, INewsListItem } from "../types/news";
-import { fetchNews } from "../service/fetchNews";
-import { deleteNews } from "../service/deleteNews";
 import { createNews } from "../service/createNews";
-import { fetchNewsDetail } from "../service/fetchNewsDetail";
+import { deleteNews } from "../service/deleteNews";
 import { editNews } from "../service/editNews";
+import { fetchNews } from "../service/fetchNews";
+import { fetchNewsDetail } from "../service/fetchNewsDetail";
+import type { INewsDetail, INewsListItem } from "../types/news";
 
 export interface INewsSchema extends IEntitiesState {
   entities?: INewsListItem[];
-  newsDetail: INewsDetail | null;
+  newsDetail?: INewsDetail;
 }
 
 const initialState: INewsSchema = {
-  loading: "idle",
-  newsDetail: null
+  loading: "idle"
 };
 
 export const newsAdapter = createEntityAdapter({
@@ -26,7 +25,11 @@ export const newsAdapter = createEntityAdapter({
 const newsSlice = createSlice({
   name: "news",
   initialState: newsAdapter.getInitialState(initialState),
-  reducers: {},
+  reducers: {
+    resetDetail: (state) => {
+      state.newsDetail = undefined;
+    }
+  },
   extraReducers: (builder) => {
     builder
       // fetch news

@@ -1,4 +1,4 @@
-import { RootState } from "@app/index";
+import type { RootState } from "@app/index";
 
 import { slidersAdapter } from "../slice/slidersSlice";
 

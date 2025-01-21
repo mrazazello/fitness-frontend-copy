@@ -1,9 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
-import { IThunkConfig } from "@app/index";
+import type { IThunkConfig } from "@shared/api/error/model/types/error";
 
-import { IDocsListResponse } from "../types/docs";
+import type { IDocsListResponse } from "../types/docs";
 
 export const fetchDocs = createAsyncThunk<
   IDocsListResponse,

@@ -1,5 +1,5 @@
+import type { ReactElement } from "react";
 import { Provider } from "react-redux";
-import { ReactElement } from "react";
 
 import setupAxios from "@shared/api/axios/axios";
 

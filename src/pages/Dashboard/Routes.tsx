@@ -1,20 +1,17 @@
 import { HomeOutlined } from "@ant-design/icons";
+import { lazy } from "react";
 
-import { IRoutes } from "@shared/models/routes";
+import type { IRoutes } from "@shared/models/routes";
 
-import { DashboardAsync } from "./Dashboard.async";
+const DashboardAsync = lazy(() => import("./Dashboard"));
 
-export enum DashboardSlugsEnum {
-  main = "main"
-}
+import type { DashboardSlugsEnum } from "./routesPaths";
+import { dashboardRoutesPaths } from "./routesPaths";
 
 export const dashboardRoutes: IRoutes<DashboardSlugsEnum> = {
   main: {
-    URL: () => "/",
+    ...dashboardRoutesPaths.main,
     element: <DashboardAsync />,
-    title: "Главная",
-    public: false,
-    mainMenu: true,
     icon: <HomeOutlined />
   }
 };

@@ -1,57 +1,37 @@
 import { ApartmentOutlined } from "@ant-design/icons";
+import { lazy } from "react";
 
-import { IRoutes } from "@shared/models/routes";
+import type { IRoutes } from "@shared/models/routes";
 
-import { ClubsAsync } from "./Clubs.async";
-import { ClubPageAsync } from "./ClubPage.async";
-import { ClubEditAsync } from "./ClubEdit.async";
-import { ClubAddressEditAsync } from "./ClubAddressEdit.async";
-import { ClubPhotosEditAsync } from "./ClubPhotosEdit.async";
+const ClubsAsync = lazy(() => import("./Clubs"));
+const ClubPageAsync = lazy(() => import("./ClubPage"));
+const ClubEditAsync = lazy(() => import("./ClubEdit"));
+const ClubAddressEditAsync = lazy(() => import("./ClubAddressEdit"));
+const ClubPhotosEditAsync = lazy(() => import("./ClubPhotosEdit"));
 
-export enum ClubsSlugsEnum {
-  clubs = "clubs",
-  club = "club",
-  club_edit = "club_edit",
-  club_address_edit = "club_address_edit",
-  club_photos_edit = "club_photos_edit"
-}
+import { ClubsSlugsEnum, clubRoutesPaths } from "./routesPaths";
 
 export const clubRoutes: IRoutes<ClubsSlugsEnum> = {
   clubs: {
-    URL: () => "/clubs",
+    ...clubRoutesPaths.clubs,
     element: <ClubsAsync />,
-    title: "Клубы",
-    public: false,
-    mainMenu: true,
     icon: <ApartmentOutlined />
   },
   club: {
-    URL: (id = ":id") => `/clubs/${id}`,
-    element: <ClubPageAsync />,
-    title: "Клуб",
-    public: false,
-    mainMenu: false
+    ...clubRoutesPaths.club,
+    element: <ClubPageAsync />
   },
   club_edit: {
-    URL: (id = ":id") => `/clubs/edit/${id}`,
-    element: <ClubEditAsync />,
-    title: "Редактирование клуба",
-    public: false,
-    mainMenu: false
+    ...clubRoutesPaths.club_edit,
+    element: <ClubEditAsync />
   },
   club_address_edit: {
-    URL: (id = ":id") => `/clubs/address/${id}/edit`,
-    element: <ClubAddressEditAsync />,
-    title: "Редактирование адреса клуба",
-    public: false,
-    mainMenu: false
+    ...clubRoutesPaths.club_address_edit,
+    element: <ClubAddressEditAsync />
   },
 
   club_photos_edit: {
-    URL: (id = ":id") => `/clubs/${id}/photos`,
-    element: <ClubPhotosEditAsync />,
-    title: "Редактирование фото клуба",
-    public: false,
-    mainMenu: false
+    ...clubRoutesPaths.club_photos_edit,
+    element: <ClubPhotosEditAsync />
   }
 };

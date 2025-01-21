@@ -1,9 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
-import { IThunkConfig } from "@app/index";
+import type { IThunkConfig } from "@shared/api/error/model/types/error";
 
-import { IPromocodeDetailResponse } from "../types/promocodes";
+import type { IPromocodeDetailResponse } from "../types/promocodes";
 
 export const fetchPromocode = createAsyncThunk<
   IPromocodeDetailResponse,

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 
-import Preloader from "@shared/ui/Preloader/Preloader";
 import { fetchClubs } from "@entities/club";
-import { useAppDispatch } from "@app/index";
+import { useAppDispatch } from "@shared/hooks/useAppStore";
+import Preloader from "@shared/ui/Preloader/Preloader";
 
 const LoadDirectories = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -15,7 +15,7 @@ const LoadDirectories = () => {
       await dispatch(fetchClubs());
       setIsLoading(false);
     };
-    isLoading && loadDirectories();
+    if (isLoading) loadDirectories();
   }, [isLoading]);
 
   return isLoading ? (

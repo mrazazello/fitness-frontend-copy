@@ -1,27 +1,23 @@
-import {
-  createEntityAdapter,
-  createSlice,
-  PayloadAction
-} from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 
-import {
+import type {
   FilterType,
   IEntitiesState,
   ISorterRusult
 } from "@shared/models/slice";
 
+import { createCoach } from "../service/createCoach";
+import { deleteCoach } from "../service/deleteCoach";
+import { editCoach } from "../service/editCoach";
+import { fetchCoach } from "../service/fetchCoach";
+import { fetchCoachs } from "../service/fetchCoachs";
+import type { ICoachDetail, ICoachListItem } from "../types/coachs";
 import {
   covertICoachCreatedArgs2IcoachListItem,
   covertICoachEditArgs2IcoachDetail,
-  covertICoachEditArgs2IcoachListItem,
-  ICoachDetail,
-  ICoachListItem
+  covertICoachEditArgs2IcoachListItem
 } from "../types/coachs";
-import { fetchCoachs } from "../service/fetchCoachs";
-import { createCoach } from "../service/createCoach";
-import { deleteCoach } from "../service/deleteCoach";
-import { fetchCoach } from "../service/fetchCoach";
-import { editCoach } from "../service/editCoach";
 
 export interface ICoachsSchema extends IEntitiesState {
   entities?: ICoachListItem[];
@@ -52,6 +48,9 @@ const coachsSlice = createSlice({
       action: PayloadAction<ISorterRusult | ISorterRusult[]>
     ) => {
       state.sorter = action.payload;
+    },
+    resetDetail: (state) => {
+      state.coachDetail = undefined;
     }
   },
   extraReducers: (builder) => {

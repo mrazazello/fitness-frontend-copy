@@ -1,9 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
-import { IThunkConfig } from "@app/index";
+import type { IThunkConfig } from "@shared/api/error/model/types/error";
 
-import { IOptionIconsResponse } from "../types/options";
+import type { IOptionIconsResponse } from "../types/options";
 
 export const fetchOptionIcons = createAsyncThunk<
   IOptionIconsResponse,

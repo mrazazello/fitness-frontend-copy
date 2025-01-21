@@ -1,13 +1,13 @@
-import { Space, Table } from "antd";
 import { CheckCircleOutlined } from "@ant-design/icons";
-import { ColumnProps } from "antd/lib/table";
+import { Space, Table } from "antd";
+import type { ColumnProps } from "antd/lib/table";
 
-import { EditEntityBtn } from "@shared/ui/EditEntityBtn/EditEntityBtn";
+import { useAppDispatch } from "@shared/hooks/useAppStore";
 import { DeleteEntityBtn } from "@shared/ui/DeleteEntityBtn/DeleteEntityBtn";
-import { useAppDispatch } from "@app/index";
+import { EditEntityBtn } from "@shared/ui/EditEntityBtn/EditEntityBtn";
 
-import { IDocsListItem } from "../model/types/docs";
 import { deleteDoc } from "../model/service/deleteDoc";
+import type { IDocsListItem } from "../model/types/docs";
 
 type TProps = {
   docs?: IDocsListItem[];

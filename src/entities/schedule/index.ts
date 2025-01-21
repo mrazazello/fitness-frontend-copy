@@ -1,4 +1,4 @@
-import {
+import type {
   IScheduleListItem,
   IScheduleListRequestParams,
   IScheduleCreateValues,
@@ -16,11 +16,8 @@ import { editEvent } from "./model/service/editEvent";
 import { fetchEvent } from "./model/service/fetchEvent";
 import { fetchEvents } from "./model/service/fetchEvents";
 import { copyEvents } from "./model/service/copyEvents";
-import {
-  scheduleActions,
-  scheduleReducer,
-  IScheduleSchema
-} from "./model/slice/scheduleSlice";
+import type { IScheduleSchema } from "./model/slice/scheduleSlice";
+import { scheduleActions, scheduleReducer } from "./model/slice/scheduleSlice";
 import { ScheduleTableView } from "./ui/ScheduleTableView";
 import { ScheduleWeekView } from "./ui/ScheduleWeekView";
 import { ScheduleEditForm } from "./ui/ScheduleEditForm";

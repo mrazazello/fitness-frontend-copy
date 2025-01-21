@@ -1,13 +1,10 @@
-import {
+import type {
   IProgramListItem,
   IProgrammEditValues,
   IProgrammEditRequest
 } from "./model/types/programms";
-import {
-  programmReducer,
-  programmActions,
-  IProgrammsSchema
-} from "./model/slice/programmsSlice";
+import type { IProgrammsSchema } from "./model/slice/programmsSlice";
+import { programmReducer, programmActions } from "./model/slice/programmsSlice";
 import {
   programmsSelectors,
   getProggramsLoading

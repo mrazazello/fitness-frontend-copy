@@ -1,13 +1,14 @@
 import { Pagination, Table, Tag } from "antd";
-import { ColumnProps } from "antd/lib/table";
-import { Link, To } from "react-router-dom";
+import type { ColumnProps } from "antd/lib/table";
+import type { To } from "react-router-dom";
 
-import { IPagination } from "@shared/models/slice";
-import TooltipDate from "@shared/ui/TooltipDate/TooltipDate";
+import type { IPagination } from "@shared/models/slice";
 import PaymentStatus from "@shared/ui/PaymentStatus/PaymentStatus";
+import TooltipDate from "@shared/ui/TooltipDate/TooltipDate";
 import getFullName from "@shared/utils/getFullName";
 
-import { IOrdersListItem } from "../model/types/orders";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
+import type { IOrdersListItem } from "../model/types/orders";
 
 type TProps = {
   orders?: IOrdersListItem[];
@@ -19,6 +20,11 @@ type TProps = {
 
 export const OrdersList = (props: TProps) => {
   const { orders, loading, pagination, onView, onPageChange } = props;
+  const { navigateSave } = useNavigateBack();
+
+  const viewHandler = (code: string) => {
+    navigateSave(onView(code));
+  };
 
   const columns: ColumnProps<IOrdersListItem>[] = [
     {
@@ -26,9 +32,9 @@ export const OrdersList = (props: TProps) => {
       dataIndex: "createdAt",
       key: "createdAt",
       render: (_, record) => (
-        <Link to={onView(record.code)}>
+        <a onClick={() => viewHandler(record.code)}>
           <TooltipDate date={record.createdAt} />
-        </Link>
+        </a>
       )
     },
     {

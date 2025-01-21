@@ -1,4 +1,4 @@
-import { IRoutes } from "@shared/models/routes";
+import type { IRoutes } from "@shared/models/routes";
 
 import { PageNotFoundAsync } from "./PageNotFound.async";
 

@@ -1,13 +1,13 @@
 import { Pagination, Space, Switch, Table } from "antd";
-import { ColumnProps } from "antd/lib/table";
+import type { ColumnProps } from "antd/lib/table";
 
-import { IPagination } from "@shared/models/slice";
-import { EditEntityBtn } from "@shared/ui/EditEntityBtn/EditEntityBtn";
+import { useAppDispatch } from "@shared/hooks/useAppStore";
+import type { IPagination } from "@shared/models/slice";
 import { DeleteEntityBtn } from "@shared/ui/DeleteEntityBtn/DeleteEntityBtn";
-import { useAppDispatch } from "@app/index";
+import { EditEntityBtn } from "@shared/ui/EditEntityBtn/EditEntityBtn";
 
-import { ISliderListItem } from "../model/types/sliders";
 import { deleteSlider } from "../model/service/deleteSlider";
+import type { ISliderListItem } from "../model/types/sliders";
 
 type TProps = {
   sliders?: ISliderListItem[];

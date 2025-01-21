@@ -1,38 +1,26 @@
 import { CalendarOutlined } from "@ant-design/icons";
+import { lazy } from "react";
 
-import { IRoutes } from "@shared/models/routes";
+import type { IRoutes } from "@shared/models/routes";
 
-import { ScheduleAsync } from "./Schedule.async";
-import { ScheduleCreateAsync } from "./ScheduleCreate.async";
-import { ScheduleEditAsync } from "./ScheduleEdit.async";
+const ScheduleAsync = lazy(() => import("./Schedule"));
+const ScheduleCreateAsync = lazy(() => import("./ScheduleCreate"));
+const ScheduleEditAsync = lazy(() => import("./ScheduleEdit"));
 
-export enum ScheduleSlugsEnum {
-  schedule = "schedule",
-  schedule_create = "schedule_create",
-  schedule_edit = "schedule_edit"
-}
+import { ScheduleSlugsEnum, scheduleRoutesPaths } from "./routesPaths";
 
 export const scheduleRoutes: IRoutes<ScheduleSlugsEnum> = {
   schedule: {
-    URL: () => "/schedule",
+    ...scheduleRoutesPaths.schedule,
     element: <ScheduleAsync />,
-    title: "Расписание",
-    public: false,
-    mainMenu: true,
     icon: <CalendarOutlined />
   },
   schedule_create: {
-    URL: () => "/schedule/create",
-    element: <ScheduleCreateAsync />,
-    title: "Добавление события",
-    public: false,
-    mainMenu: false
+    ...scheduleRoutesPaths.schedule_create,
+    element: <ScheduleCreateAsync />
   },
   schedule_edit: {
-    URL: (id = ":id") => `/schedule/${id}/edit`,
-    element: <ScheduleEditAsync />,
-    title: "Редактирование события",
-    public: false,
-    mainMenu: false
+    ...scheduleRoutesPaths.schedule_edit,
+    element: <ScheduleEditAsync />
   }
 };

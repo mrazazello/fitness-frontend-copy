@@ -1,25 +1,24 @@
 import { Button, Card, PageHeader } from "antd";
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
-import { ShowErrorMessages, errorActions } from "@shared/api/error";
-import { useAppDispatch, useAppSelector } from "@app/index";
 import {
+  ScheduleTableView,
+  ScheduleWeekView,
   copyEvents,
   fetchEvents,
   getScheduleLoading,
-  scheduleActions,
-  scheduleSelectors,
-  ScheduleTableView,
-  ScheduleWeekView
+  scheduleSelectors
 } from "@entities/schedule";
+import { ShowErrorMessages, errorActions } from "@shared/api/error";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
 import { useTableRowSelection } from "@shared/hooks/useTableRowSelection";
 import { addReactKeyByProperty } from "@shared/utils/addReactKey";
 
-import "./schedule.css";
-
 import { FiltersBlock } from "./FiltersBlock";
-import { scheduleRoutes } from "./Routes";
+import { scheduleRoutesPaths } from "./routesPaths";
+import "./schedule.css";
 
 const tabList = [
   {
@@ -33,18 +32,20 @@ const tabList = [
 ];
 
 const Schedule = () => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { navigateSave } = useNavigateBack();
   const [searchParams] = useSearchParams();
 
   const { selectedRowKeys, hasSelected, rowSelection } = useTableRowSelection();
 
   const [activeTabKey, setActiveTabKey] = useState<string>("WeekView");
-  const onTabChange = (key: string) => setActiveTabKey(key);
+
+  const onTabChange = (key: string) => {
+    setActiveTabKey(key);
+  };
 
   useEffect(() => {
     void dispatch(errorActions.resetErrors());
-    void dispatch(scheduleActions.resetEventDetail());
   }, []);
 
   useEffect(() => {
@@ -77,7 +78,7 @@ const Schedule = () => {
         loading={loading === "loading"}
         rowSelection={rowSelection}
         onEdit={(code: string) =>
-          navigate(scheduleRoutes.schedule_edit.URL(code))
+          navigateSave(scheduleRoutesPaths.schedule_edit.URL(code))
         }
       />
     ),
@@ -86,11 +87,14 @@ const Schedule = () => {
         events={events}
         loading={loading === "loading"}
         onEdit={(code: string) =>
-          navigate(scheduleRoutes.schedule_edit.URL(code))
+          navigateSave(scheduleRoutesPaths.schedule_edit.URL(code))
         }
       />
     )
   };
+
+  const handleCreateEvent = () =>
+    navigateSave(scheduleRoutesPaths.schedule_create.URL());
 
   return (
     <>
@@ -105,11 +109,9 @@ const Schedule = () => {
             >
               Дублировать на неделю
             </Button>
-            <Link to={scheduleRoutes.schedule_create.URL()}>
-              <Button type="primary">
-                {scheduleRoutes.schedule_create.title}
-              </Button>
-            </Link>
+            <Button type="primary" onClick={handleCreateEvent}>
+              {scheduleRoutesPaths.schedule_create.title}
+            </Button>
           </>
         }
       />

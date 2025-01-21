@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { IEntitiesState } from "@shared/models/slice";
+import type { IEntitiesState } from "@shared/models/slice";
 
-import { refreshToken } from "../service/refreshToken";
-import { login } from "../service/login";
 import { logOut } from "../service/logOut";
+import { login } from "../service/login";
+import { refreshToken } from "../service/refreshToken";
 
 export interface IAuthSchema extends IEntitiesState {
   accessToken: string | null;

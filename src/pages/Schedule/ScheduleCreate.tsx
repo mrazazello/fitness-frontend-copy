@@ -1,26 +1,28 @@
 import { PageHeader } from "antd";
 import dayjs from "dayjs";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
-import { errorActions } from "@shared/api/error";
-import { useAppDispatch, useAppSelector } from "@app/index";
-import getFullName from "@shared/utils/getFullName";
 import {
-  IScheduleCreateValues,
-  ScheduleEditForm,
-  createEvent
-} from "@entities/schedule";
-import { IScheduleCreateArgs } from "@entities/schedule/model/types/schedule";
+  fetchAllAreas,
+  getClubAllAreas,
+  useAreasByClub
+} from "@entities/clubAreas";
 import { coachsSelectors, fetchCoachs } from "@entities/coachs";
 import { fetchProgramms, programmsSelectors } from "@entities/programms";
-import { fetchAllAreas, getClubAllAreas } from "@entities/clubAreas";
+import type { IScheduleCreateValues } from "@entities/schedule";
+import { ScheduleEditForm, createEvent } from "@entities/schedule";
+import type { IScheduleCreateArgs } from "@entities/schedule/model/types/schedule";
+import { errorActions } from "@shared/api/error";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
+import getFullName from "@shared/utils/getFullName";
 
-import { scheduleRoutes } from "./Routes";
+import { scheduleRoutesPaths } from "./routesPaths";
 
 const ScheduleCreate = () => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { navigateBack } = useNavigateBack();
+  const onBack = () => navigateBack(scheduleRoutesPaths.schedule.URL());
 
   useEffect(() => {
     void dispatch(errorActions.resetErrors());
@@ -42,10 +44,7 @@ const ScheduleCreate = () => {
   }));
 
   const areas = useAppSelector(getClubAllAreas);
-  const areasOptions = areas?.map((item) => ({
-    value: item.code,
-    label: `${item.name} (${item.club.name})`
-  }));
+  const areasOptions = useAreasByClub();
 
   const handleScheduleCreate = (values: IScheduleCreateValues) => {
     const teacher = coachs.find((item) => item.code === values.teacherCode);
@@ -61,8 +60,7 @@ const ScheduleCreate = () => {
         program
       };
       void dispatch(createEvent(request)).then((res) => {
-        if (res.meta.requestStatus === "fulfilled")
-          navigate(scheduleRoutes.schedule.URL());
+        if (res.meta.requestStatus === "fulfilled") onBack();
       });
     }
   };
@@ -70,15 +68,15 @@ const ScheduleCreate = () => {
   return (
     <>
       <PageHeader
-        title={scheduleRoutes.schedule_create.title}
-        onBack={() => navigate(-1)}
+        title={scheduleRoutesPaths.schedule_create.title}
+        onBack={onBack}
       />
       <ScheduleEditForm
         programmsOptions={programmsOptions}
         coachsOptions={coachsOptions}
         areasOptions={areasOptions}
         onSave={handleScheduleCreate}
-        onCancel={() => navigate(scheduleRoutes.schedule.URL())}
+        onCancel={onBack}
       />
     </>
   );

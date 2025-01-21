@@ -1,18 +1,19 @@
 import { PageHeader } from "antd";
 import dayjs from "dayjs";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
+import type { IOfferEditValues } from "@entities/offers";
+import { OfferEditForm, createOffer } from "@entities/offers";
 import { errorActions } from "@shared/api/error";
-import { useAppDispatch } from "@app/index";
+import { useAppDispatch } from "@shared/hooks/useAppStore";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
 import { convertIFileResponseToPhotoListItem } from "@shared/models/files";
-import { IOfferEditValues, OfferEditForm, createOffer } from "@entities/offers";
-
-import { offersRoutes } from "./Routes";
+import { offersRoutesPaths } from "./routesPaths";
 
 const OfferCreate = () => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { navigateBack } = useNavigateBack();
+  const onBack = () => navigateBack(offersRoutesPaths.offers.URL());
 
   useEffect(() => {
     void dispatch(errorActions.resetErrors());
@@ -29,21 +30,17 @@ const OfferCreate = () => {
         photo: convertIFileResponseToPhotoListItem(values.photo[0].response)
       })
     ).then((res) => {
-      if (res.meta.requestStatus === "fulfilled")
-        navigate(offersRoutes.offers.URL());
+      if (res.meta.requestStatus === "fulfilled") onBack();
     });
   };
 
   return (
     <>
       <PageHeader
-        title={offersRoutes.offer_create.title}
-        onBack={() => navigate(offersRoutes.offers.URL())}
+        title={offersRoutesPaths.offer_create.title}
+        onBack={onBack}
       />
-      <OfferEditForm
-        onSave={handleOfferCreate}
-        onCancel={() => navigate(offersRoutes.offers.URL())}
-      />
+      <OfferEditForm onSave={handleOfferCreate} onCancel={onBack} />
     </>
   );
 };

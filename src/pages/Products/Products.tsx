@@ -1,25 +1,26 @@
 import { Button, Card, PageHeader } from "antd";
 import { useEffect } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 import { useClubsSelectItems } from "@entities/club";
-import { ShowErrorMessages, errorActions } from "@shared/api/error";
-import { useAppDispatch, useAppSelector } from "@app/index";
+import type { IProductListItem } from "@entities/products";
 import {
+  ProductsList,
   fetchProducts,
   getProductsLoading,
   getProductsPagination,
-  IProductListItem,
-  ProductsList,
   productsSelectors,
   sortProduct
 } from "@entities/products";
+import { ShowErrorMessages, errorActions } from "@shared/api/error";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
 import { addReactKeyByProperty } from "@shared/utils/addReactKey";
 
-import { productsRoutes } from "./Routes";
+import { productsRoutesPaths } from "./routesPaths";
 
 const Products = () => {
-  const navigate = useNavigate();
+  const { navigateSave } = useNavigateBack();
   const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
 
@@ -52,11 +53,11 @@ const Products = () => {
   return (
     <>
       <PageHeader
-        title={productsRoutes.products.title}
+        title={productsRoutesPaths.products.title}
         extra={
-          <Link to={productsRoutes.product_create.URL()}>
+          <Link to={productsRoutesPaths.product_create.URL()}>
             <Button type="primary">
-              {productsRoutes.product_create.title}
+              {productsRoutesPaths.product_create.title}
             </Button>
           </Link>
         }
@@ -70,7 +71,7 @@ const Products = () => {
           pagination={pagination}
           onSort={onSort}
           onEdit={(code: string) =>
-            navigate(productsRoutes.product_edit.URL(code))
+            navigateSave(productsRoutesPaths.product_edit.URL(code))
           }
         />
       </Card>

@@ -1,22 +1,23 @@
 import { PageHeader } from "antd";
 import { useCallback, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
-import { errorActions } from "@shared/api/error";
-import { useAppDispatch, useAppSelector } from "@app/index";
-import {
+import { clubsSelectors, useClubsSelectItems } from "@entities/club";
+import { CoachEditForm, createCoach } from "@entities/coachs";
+import type {
   ICoachCreateArgs,
   ICoachsCreateValues
 } from "@entities/coachs/model/types/coachs";
+import { errorActions } from "@shared/api/error";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
 import { convertIFileResponseToPhotoListItem } from "@shared/models/files";
-import { CoachEditForm, createCoach } from "@entities/coachs";
-import { clubsSelectors, useClubsSelectItems } from "@entities/club";
 
-import { coachsRoutes } from "./Routes";
+import { useNavigateBack } from "@shared/hooks/useNavigateBack";
+import { coachsRoutesPaths } from "./routesPaths";
 
 const CoachCreatePage = () => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { navigateBack } = useNavigateBack();
+  const onBack = () => navigateBack(coachsRoutesPaths.coachs.URL());
 
   const clubs = useAppSelector(clubsSelectors.selectAll);
   const { clubsSelectOptions } = useClubsSelectItems();
@@ -41,8 +42,7 @@ const CoachCreatePage = () => {
           }))
       };
       await dispatch(createCoach(request)).then((res) => {
-        if (res.meta.requestStatus === "fulfilled")
-          navigate(coachsRoutes.coachs.URL());
+        if (res.meta.requestStatus === "fulfilled") onBack();
       });
     },
     [clubs]
@@ -51,13 +51,13 @@ const CoachCreatePage = () => {
   return (
     <>
       <PageHeader
-        title={coachsRoutes.coach_create.title}
-        onBack={() => navigate(coachsRoutes.coachs.URL())}
+        title={coachsRoutesPaths.coach_create.title}
+        onBack={onBack}
       />
       <CoachEditForm
         clubsSelectOptions={clubsSelectOptions}
         onSave={handleCreateCoach}
-        onCancel={() => navigate(coachsRoutes.coachs.URL())}
+        onCancel={onBack}
       />
     </>
   );

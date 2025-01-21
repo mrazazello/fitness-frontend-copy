@@ -1,13 +1,14 @@
 import { Form, Input, Modal, Select } from "antd";
 import { useEffect } from "react";
 
-import { IThunkCustomError, ShowErrorMessages } from "@shared/api/error";
-import * as formlabels from "@shared/constants/formsWrappers";
-import { useAppDispatch, useAppSelector } from "@app/index";
 import {
   fetchOptionIcons,
   optionIconsSelectors
 } from "@entities/clubOptionsIcons";
+import type { IThunkCustomError } from "@shared/api/error";
+import { ShowErrorMessages } from "@shared/api/error";
+import * as formlabels from "@shared/constants/formsWrappers";
+import { useAppDispatch, useAppSelector } from "@shared/hooks/useAppStore";
 
 // "square" - площадь помещения,
 // "child" - детская игровая комната,
