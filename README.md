@@ -1,38 +1,38 @@
 # Fitness-ptz
 
-<img src="./public/screenshot.png" alt="скриншот" />
+<img src="./public/screenshot.png" alt="screenshot" />
 
-Это часть проекта Fitness-ptz связанная с системой управления данными.
+This part of the Fitness-ptz project is related to the data management system.
 
-## Требования для запуска проекта
+## Project Run Requirements
 
-Проект запускается на машинах под управлением операционной системы Linux.
-Должны быть установлены:
+The project runs on machines running the Linux operating system.
 
-- docker (проверен с версией 20.10.12)
-- docker-compose (проверен с версией 1.23.1)
-- make (проверен GNU Make 4.2.1)
+The following must be installed:
 
-В Ubuntu это можно сделать командой:
+- docker (checked with 20.10.12)
+- docker-compose (checked with 1.23.1)
+- make (checked with GNU Make 4.2.1)
+
+In Ubuntu, this can be done with the command:
 
 ` sudo apt install docker docker-compose make`
 
-Не забывайте что ваш локальный пользователь должен быть включен в группу **docker**.
+Please note that your local user must be enabled in group **docker**.
 
-## Быстрый запуск для разработки
+## Quick Start for Development
 
-1. Извлечь репозиторий на локальную машину
+1. git clone to local machine
 
-2. Настроить окружение. Если требуется изменить, то создать файл .env.local с вашими корректировками.
-   Например идентификатор вашего пользователя и группы стоит указать, если они отличаются от значений по умолчанию.
-   Так-же можно изменить порт вашего приложения, если он уже занят. Порт по умолчанию **8121**.
+2. Create an Environment. If you need to change it, create a .env.local file with your adjustments. 
+For example, your user and group ID should be specified if they match the default results. You can also change the port of your application if it is already taken. The default port is **8121**.
 
-3. Запустить стартовую настройку
+3. Run the starter installation
 
    `make install`
 
-4. Запустить приложение
+4. Run the application
 
    `make start`
 
-После успешной установки, если настройки не изменялись, то открыть проект можно по адресу [http://localhost:8121](http://localhost:8121)
+After successful installation, if the settings have not changed, you can open the project at [http://localhost:8121](http://localhost:8121)
